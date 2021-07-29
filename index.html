@@ -1,0 +1,383 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="script.js"></script>
+
+    <title>Gauge Test1</title>
+    
+    <style>
+    body {
+        padding: 0;
+        margin: 0;
+        background: #fff
+    }
+    
+    .inputWidth
+    {
+        width: 20%;
+    }
+    </style>
+</head>
+<body style="background-color:#ffffcc">
+    <p style="margin-left:80%;" class="p-3">
+        <a class="btn btn-primary" data-bs-toggle="collapse" id="settings" href="#collapseExample1" onclick="" role="button" aria-expanded="false" aria-controls="collapseExample collapseExample1">
+          Settings
+        </a>
+        
+      </p>
+      <br>
+      <div class="collapse  p-3 pt-0 " id="collapseExample">
+        <div class="card card-body" style="background-color:#38b2ff">
+            <div class="row">
+        <div class=" mt-4 col-lg-12  col-md-6  text-center"> 
+
+            <label class="form-label p-2 mt-2" style="font-weight:bold">Enter Password</label>
+                <input type="password" class="form-control d-inline inputWidth m-1">
+                <button type="button" class="btn d-inline btn-primary mx-1 mt-0" onclick="savePassword()">Submit</button>
+
+        </div>
+    </div>
+      </div>
+    </div>
+      <div class="collapse p-3 pt-0 " id="collapseExample1">
+        <div class="card card-body" style="background-color:#38b2ff">
+            
+            <form class="row">
+                <div class="col-3">
+
+                    <label for="GaugesSelector" class="form-label">Gauges To Mesaure</label>
+                <select id="GaugesSelector" name="GaugesSelector">
+                    <option value="weight">Weight</option>
+                    <option value="pressure">Pressure</option>
+                    <option value="torque">Torque</option>
+                  </select>
+                  
+                  <!-- <i class=" p-2 fa fa-minus" aria-hidden=""></i>  -->
+                  <div>
+
+                  
+                  <input type="button" style="width:35%"  class=" p-1 m-2 d-inline form-control btn btn-primary btn-sm " id="unitbutton" onclick="showInput()" value="Add Unit">
+                <div class="d-inline" style="visibility: hidden;"   id="MeasureUnitDiv">
+                  <input type="text" class=" mt-2 form-control d-inline inputWidth w-50" id="MeasureUnit" >
+                  <span onclick = "addUnit(0)"> <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
+                </div>
+            </div>
+                </div>
+                <div class="col-2">
+                    <label for="MesauringUnits" class="form-label">MesauringUnits</label>
+                <select id="MesauringUnits" name="GaugesSelector">
+                    <option value="bar">bar</option>
+                    <option value="ft-lbs">ft-lbs</option>
+                    <option value="kg">kg</option>
+                  </select>
+                  <!-- <input type="text" style="width:55%; height:45%; margin-left:1%;" class=" pt-0 d-inline form-control inputWidth" id="MeasuringUnitInput" >
+                  <span onclick = "addUnit(1)"> <i class="pb-2 fa fa-plus" aria-hidden="true"></i></span> -->
+
+                  <div class="" style="visibility: hidden;" id="MeasuringUnitInputDiv">
+                    <input type="text"   class=" mt-2 form-control d-inline inputWidth w-50" id="MeasuringUnitInput" >
+                    <span onclick = "addUnit(0)"> <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
+                  </div>
+                    <!-- <p>Mesauring Units <span id="MesauringUnits" class="p-1  bg-secondary text-white">Lbs</span></p> -->
+                </div>
+
+                <div class="col-2">
+                    <label for="SecondaryUnits" class="form-label">SecondaryUnits</label>
+                <select id="SecondaryUnits" name="GaugesSelector">
+                    <option value="psi">psi</option>
+                    <option value="nm">nm</option>
+                    <option value="lbs">lbs</option>
+                  </select>
+                  <!-- <input type="text" style="width:55%; height:45%; margin-left:1%;" class=" pt-3 d-inline form-control inputWidth" id="SecondaryUnitInput" >
+                 <span onclick = "addUnit(2)"> <i class="pb-2 fa fa-plus" aria-hidden="true"></i></span> -->
+                 <div class="" style="visibility: hidden;" id="SecondaryUnitInputDiv" >
+                    <input type="text"   class=" mt-2 form-control d-inline inputWidth w-50" id="SecondaryUnitInput"  >
+                    <span onclick = "addUnit(0)"> <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
+                  </div>
+
+                    <!-- <p>Secondary Units <span id="SecondaryUnits" class="p-1  bg-secondary text-white">Kgs</span></p> -->
+                </div>
+
+
+                <div class="col-4">
+                    
+                    <label for="GaugeColor" class="form-label">Gauge Color</label>
+                <select id="GaugeColor" name="GaugeColorSelector">
+                    <option value="white">White</option>
+                    <option value="black">black</option>
+                    <option value="green">green</option>
+                  </select>
+                  </div>
+      
+
+                  <hr>
+                  <div class="col-12">
+                <input type="file" class="mr-1"> 
+                <label for="MaxTime" class="ml-0 d-inline form-label">Max Time</label>
+                <select id="MaxTime" name="MaxTimeSelector">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </select>
+                <input type="button" onclick="updateGauge()" value="Submit">
+            </div>
+
+                <div class=" mt-4 col-lg-6 col-md-6 text-center">
+                    <h3 class="">Low</h3>
+                
+                    
+                    <div >
+                        <label  class="form-label">Sensor</label>
+                        <input type="number" class="form-control d-inline inputWidth" id="InputLowSensor1" value="-1000">
+                        <span class="px-2">X</span>
+                        <input type="number" class="form-control d-inline inputWidth" id="InputLowSensor2" value="1">
+                    </div>  
+                
+                    <div style="margin-right: 8.8%;" >
+                        <label  class="form-label mt-3">Alarm</label>
+                        <input type="number" class="form-control d-inline inputWidth" id="InputAlarmLow" value="20">
+                        <span class="px-2">%</span>
+                        <div class="d-inline-block form-check">
+                            <input type="checkbox" class="form-check-input" id="AlarmCheckLow" checked>
+                            <label class="form-check-label" >Enable</label>
+                          </div>
+                    </div>
+                
+            </div>
+            <div class="mt-4 col-lg-6 col-md-6 text-center">
+                <h3 class="">High</h3>
+            
+                
+                <div >
+                    <label class="form-label">Sensor</label>
+                    <input type="number" class="form-control d-inline inputWidth" id="InputHighSensor1" value="1000"> 
+                    <span class="px-2">X</span>
+                    <input type="number" class="form-control d-inline inputWidth" id="InputHighSensor2" value="1">
+                </div>  
+            
+                <div style="margin-right: 8.8%;" >
+                    <label  class="form-label mt-3">Alarm</label>
+                    <input type="number" class="form-control d-inline inputWidth" id="InputAlarmHigh" value="80">
+                    <span class="px-2">%</span>
+                    <div class="d-inline-block form-check">
+                        <input type="checkbox" class="form-check-input" id="AlarmCheckHigh" checked>
+                        <label class="form-check-label" >Enable</label>
+                      </div>
+                </div>
+            
+        </div>
+
+        <div class="text-center"><button type="button" class="btn btn-primary mt-4" onclick="saveOnClick(1)">Save and Return</button></div>
+              </form>
+        </div>
+      </div>
+<div>
+    <div class="row">
+<div class="col-lg-4  text-center">
+    <canvas  id="WeightGauge"
+         data-type="radial-gauge"
+         data-animation-duration="500"
+         data-min-value="0"
+         data-max-value="100000"
+         data-major-ticks="0,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000"
+         data-exact-ticks="true"
+         data-minor-ticks="2000"
+         data-highlights='[
+         {"from": "", "to": "", "color": "rgba(0,0, 255, .6"},      
+         {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+         ]'
+         data-width="425"
+         data-height="425"
+         data-units="Kg"
+    ></canvas>
+    <div >
+        <p style="font-size:120% ; display:inline; font-weight: bold; color: rgb(45, 45, 192);">Lbs</p>
+        <input type="number" class="" min="0" max="100000" id="gauge" oninput="animateGauges(this.value,0)">
+    </div>
+</div>
+<div class="col-lg-4  text-center">
+    <canvas id="PressureGauge" data-type="radial-gauge"
+         data-animation-duration="500"
+         data-min-value="0"
+         data-max-value="100000"
+         data-major-ticks="0,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000"
+         data-exact-ticks="true"
+         data-minor-ticks="2000"
+         data-highlights='[
+         {"from": "", "to": "", "color": "rgba(0,0, 255, .6)"},      
+         {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+         ]'
+         data-width="425"
+         data-height="425"
+         data-units="bar"
+    ></canvas>
+    <div>
+        <p style="font-size:120% ; display:inline; font-weight: bold; color: rgb(45, 45, 192);">psi</p>
+        <input type="number" class="" min="0" max="100000" oninput="animateGauges(this.value,1)">
+    </div>
+</div>
+<div class="col-lg-4  text-center">
+    <canvas id="TorqueGauge"  data-type="radial-gauge"
+         data-animation-duration="500"
+         data-min-value="0"
+         data-max-value="100000"
+         data-major-ticks="0,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000"
+         data-exact-ticks="true"
+         data-minor-ticks="2000"
+         data-highlights='[
+         {"from": "", "to": "", "color": "rgba(0,0, 255, .6)"},      
+         {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+         ]'
+         data-width="425"
+         data-height="425"
+         data-units="Ft-Lbs"
+    ></canvas>
+    <div>
+        <p style="font-size:120% ; display:inline; font-weight: bold; color: rgb(45, 45, 192);">Nm</p>
+        <input type="number" class="" min="0" max="100000" oninput="animateGauges(this.value,2)">
+    </div>
+</div>
+</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>
+
+//   window.onload = (event) => {
+//     var settings = document.getElementById("settings"); 
+//     var password = document.getElementById("collapseExample");  
+//     var settingsconfig = document.getElementById("collapseExample1");  
+//     var checksettings 
+
+//     var url="script.js";
+    
+//     url+="?"+new Date().getTime()+Math.floor(Math.random()*1000000);
+//     var el=document.createElement('script');
+
+//     el.id="123";
+    
+    
+//     el.src=url;
+//     document.body.appendChild(el);
+    
+//     el.onerror=function(err){
+//         // myFunction()
+//         settings.href = "#collapseExample"; 
+//         checksettings = true
+//     }
+
+       
+        
+//         settings.href = "#collapseExample1";   
+//         console.log(settings.href);
+//   };
+  function checkSettingsDetails(){
+    
+    }
+    
+  function savePassword(){
+      //create password file first
+    var settings = document.getElementById("settings"); 
+     document.getElementById("collapseExample").classList.remove("show");
+     document.getElementById("collapseExample1").classList.add("show") ;
+       settings.href = "#collapseExample1";   
+
+  }
+
+    function addUnit(a){
+        if(a == 0){
+        var e = document.getElementById("GaugesSelector");
+        var option = document.createElement("OPTION");
+
+        option.innerHTML = document.getElementById("MeasureUnit").value;
+        option.value = document.getElementById("MeasureUnit").value;
+        e.options.add(option)
+    }
+    }
+function showInput(){
+    var x = document.getElementById("MeasureUnitDiv");
+    if(x.style.visibility === "hidden"){
+        document.getElementById("MeasureUnitDiv").style.visibility = "visible"; 
+        document.getElementById("MeasuringUnitInputDiv").style.visibility = "visible"; 
+        document.getElementById("SecondaryUnitInputDiv").style.visibility = "visible"; 
+    }
+    else{
+    document.getElementById("MeasureUnitDiv").style.visibility = "hidden"; 
+    document.getElementById("MeasuringUnitInputDiv").style.visibility = "hidden"; 
+    document.getElementById("SecondaryUnitInputDiv").style.visibility = "hidden"; 
+    }
+    
+
+
+}
+
+var input = document.querySelector('input[type="file"]')
+input.addEventListener('change', function (e) {
+console.log(input.files)
+var reader = new FileReader()
+reader.onload = function () {
+    var lines = reader.result.split('\n').map(function (line){
+        return line.split(',');
+    })
+    console.log(lines);
+    addFileData(lines);   
+}
+
+reader.readAsText(input.files[0])
+}, false)
+
+
+var newlinedata;
+function addFileData(lines) {
+    newlinedata = lines;
+
+}
+
+
+   function updateGauge(){
+    var e = document.getElementById("MaxTime");
+
+  var maxTime = e.options[e.selectedIndex].value;
+  console.log(maxTime);
+  maxTime = maxTime * 1000
+  console.log(maxTime)
+    function addOneChar(i) {
+        var j = 0
+        var k = 0
+
+        while (j <= 5)
+        {
+            newgauge = document.gauges[k]
+            if(j %2 == 0) {
+    
+        newgauge.options.value = newlinedata[i][j+1]
+        newgauge.update();
+        k++;
+        }   
+             j++;
+             
+        }
+
+             
+        if (i+1<newlinedata.length-1) {
+        setTimeout(function() { addOneChar(i+1); }, maxTime);
+    } 
+}
+addOneChar(0)
+
+}
+
+
+</script>
+
+<script src="../gauge.min.js"></script>
+
+</body>
+</html>
+
+<!-- data-major-ticks="0,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000" -->

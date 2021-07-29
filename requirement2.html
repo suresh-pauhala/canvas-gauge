@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Gauge Tes2</title>
+    <link rel="stylesheet" href="../fonts/fonts.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="script.js"></script>
+    <script src="../gauge.min.js"></script>
+    <style>
+        .canvastyle{
+            margin: 2% 35%;
+        }
+        .inputWidth
+    {
+        width: 20%;
+    }
+    </style>
+</head>
+<body style="background-color:#ffffcc">
+
+<button onclick="animateGauges()">Animate</button>
+<button onclick="stopGaugesAnimation()">Stop animation</button>
+<input type="text" id="gauge-size" value="500">
+<button onclick="resize()">Resize</button>
+<button onclick="updateUnits()">Change units</button>
+
+<hr>
+<p style="margin-left:81%;" class="p-3">
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Settings
+    </a>
+    
+  </p>
+  <div class="collapse p-3 pt-0" id="collapseExample">
+    <div class="card card-body" style="background-color:#38b2ff">
+        
+        <form class="row">
+            <div class="col-3">
+                <label for="GaugesSelector" class="form-label">Gauges To Mesaure</label>
+            <select id="GaugesSelector" name="GaugesSelector" onchange="changeGauge()">
+                <option value="weight">Weight</option>
+                <option value="pressure">Pressure</option>
+                <option value="torque">Torque</option>
+              </select>
+            </div>
+            <div class="col-2">
+                <p>Mesauring Units <span id="MesauringUnits" class="p-1  bg-secondary text-white">Lbs</span></p>
+            </div>
+  
+            <div class="col-2">
+                <p>Secondary Units <span id="SecondaryUnits" class="p-1  bg-secondary text-white">Kgs</span></p>
+            </div>
+
+            <div class="col-4">
+              <label  class="form-label">Gauge Color</label>
+              <input type="text" class=" pt-0 d-inline form-control inputWidth" id="GaugeColor" >
+            </div>
+
+              <hr>
+            <div class="col-lg-6 col-md-6 text-center">
+                <h3 class="">Low</h3>
+                            
+                <div >
+                    <label  class="form-label">Sensor</label>
+                    <input type="number" class="form-control d-inline inputWidth" id="InputLowSensor1" value="-100">
+                    <span class="px-2">X</span>
+                    <input type="number" class="form-control d-inline inputWidth" id="InputLowSensor2" value="1">
+                </div>  
+            
+                <div style="margin-right: 9%;">
+                    <label  class="form-label mt-3">Alarm</label>
+                    <input type="number" class="form-control d-inline inputWidth" id="InputAlarmLow" value="20">
+                    <span class="px-2">%</span>
+                    <div class="d-inline-block form-check">
+                        <input type="checkbox" class="form-check-input" id="AlarmCheckLow" checked>
+                        <label class="form-check-label" >Enable</label>
+                      </div>
+                </div>
+            
+        </div>
+        <div class="col-lg-6 col-md-6 text-center">
+            <h3 class="">High</h3>
+        
+            
+            <div >
+                <label class="form-label">Sensor</label>
+                <input type="number" class="form-control d-inline inputWidth" id="InputHighSensor1" value="100">
+                <span class="px-2">X</span>
+                <input type="number" class="form-control d-inline inputWidth" id="InputHighSensor2" value="1">
+            </div>  
+        
+            <div style="margin-right: 9%;">
+                <label class="form-label mt-3">Alarm</label>
+                <input type="number" class="form-control d-inline inputWidth" id="InputAlarmHigh" value="80">
+                <span class="px-2">%</span>
+                <div class="d-inline-block form-check"> 
+                    <input type="checkbox" class="form-check-input" id="AlarmCheckHigh" checked>
+                    <label class="form-check-label" >Enable</label>
+                  </div>
+            </div>
+        
+    </div>
+
+    <div class="text-center"><button type="button" class="btn btn-primary mt-4" onclick="saveOnClick(2)">Save and Return</button></div>
+          </form>
+    </div>
+  </div>
+
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 d-flex flex-end justify-content-center">
+        <div class="d-flex flex-column">
+            <h5 style="color:rgb(199, 50, 50)">Location Name</h5>
+            <input type="number" class="mb-2" style="border: 1px solid black; border-radius: 3px;" min="0" max="100000" oninput="animateGauges(this.value)">
+
+              <div class="d-inline-block form-check">
+                <input type="checkbox" class="form-check-input" id="AlarmCheckHigh">
+                <label class="form-check-label mb-2" style="font-weight: bold;color:rgb(47, 47, 218)" >SAVE DATA</label>
+              </div>
+              <input type="number" style="border: 1px solid black; border-radius: 3px;" class="mb-2">
+              <input type="number" style="border: 1px solid black; border-radius: 3px;" class="mb-4" >
+
+              <button type="button" class="btn btn-primary">Clear Location</button>`
+            <input type="number" style="border: 1px solid black; border-radius: 3px;" class="mt-5">
+            <div class="d-inline-block form-check">
+                <input type="checkbox" class="form-check-input" id="AlarmCheckHigh">
+                <label class="form-check-label mb-5" style="color:red" >Acquire Low Signal</label>
+              </div>
+              <div class="d-inline-block form-check">
+                <input type="checkbox" class="form-check-input" id="AlarmCheckHigh">
+                <label class="form-check-label" style="font-weight: bold;color:rgb(47, 47, 218)" >Calibrate</label>
+                
+              </div>
+              <p style="color:rgb(189, 8, 8)" class="mb-4">(Quality Current Source)</p>
+            <input type="number" style="border: 1px solid black; border-radius: 3px;" class="mb-5" min="0" max="100000" oninput="animateGauges(this.value)">
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 text-center">
+        <!-- <div class="ml-3"> -->
+        <canvas  data-type="radial-gauge"
+        data-animation-duration="100"
+        data-width="500"
+        data-height="500"
+        data-units="°C"
+        data-title=""
+        data-min-value="-50"
+        data-max-value="50"
+        data-major-ticks="[-50,-40,-30,-20,-10,0,10,20,30,40,50]"
+        data-minor-ticks="2"
+        data-stroke-ticks="true"
+        data-highlights='[
+                    {"from": "", "to": "", "color": "rgba(0,0, 255, .3)"},      
+                    {"from": "", "to": "", "color": "rgba(255, 0, 0, .3)"}
+                ]'
+        data-ticks-angle="225"
+        data-start-angle="67.5"
+        data-color-major-ticks="#ddd"
+        data-color-minor-ticks="#ddd"
+        data-color-title="#eee"
+        data-color-units="#ccc"
+        data-color-numbers="#eee"
+        data-color-plate="#222"
+        data-border-shadow-width="0"
+        data-borders="true"
+        data-needle-type="arrow"
+        data-needle-width="2"
+        data-needle-circle-size="7"
+        data-needle-circle-outer="true"
+        data-needle-circle-inner="false"
+        data-animation-duration="1500"
+        data-animation-rule="linear"
+        data-color-border-outer="#333"
+        data-color-border-outer-end="#111"
+        data-color-border-middle="#222"
+        data-color-border-middle-end="#111"
+        data-color-border-inner="#111"
+        data-color-border-inner-end="#333"
+        data-color-needle-shadow-down="#333"
+        data-color-needle-circle-outer="#333"
+        data-color-needle-circle-outer-end="#111"
+        data-color-needle-circle-inner="#111"
+        data-color-needle-circle-inner-end="#222"
+        data-value-box-border-radius="0"
+        data-color-value-box-rect="#222"
+        data-color-value-box-rect-end="#333"
+        data-font-value="Led"
+        data-font-numbers="Led"
+        data-font-title="Led"
+        data-font-units="Led"
+            ></canvas>
+<!-- </div> mx-auto my-auto-->
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 d-flex flex-end justify-content-center">
+        
+        <div class="d-flex flex-column">
+            <div class="d-inline-block form-check mt-5">
+                <input type="checkbox" class="form-check-input" id="AlarmCheckHigh">
+                <label class="form-check-label" style="color:green" >Enable Delta Gauge</label>
+              </div>
+              <div class="d-inline-block form-check mt-3">
+                <input type="checkbox" class="form-check-input" id="AlarmCheckHigh">
+                <label class="form-check-label" style="color:red" >Enable Delta Mode</label>
+              </div>
+            <input type="number" style="border: 1px solid black; border-radius: 3px; margin-top: 118%;">
+            <div class="d-inline-block form-check">
+                <input type="checkbox" class="form-check-input" id="AlarmCheckHigh">
+                <label class="form-check-label mb-5" style="color:red" >Acquire High Signal</label>
+              </div>
+            <label class="" id="unit1" style="font-weight: bold; color: rgb(45, 45, 192);" ></label>
+            <input type="number" style="border: 1px solid black; border-radius: 3px;" class="mb-3" min="0" max="100000" oninput="animateGauges(this.value,0)">
+            <label class="" id="unit2" style="font-weight: bold; color: rgb(45, 45, 192);" ></label>
+            <input type="number" style="border: 1px solid black; border-radius: 3px;" class="" >
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+<script>
+
+</script>
+
+</body>
+</html>
