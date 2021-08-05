@@ -56,8 +56,13 @@ function saveOnClick(a)
 
 var min=JSON.parse(document.getElementById("InputLowSensor1").value)
                         *JSON.parse(document.getElementById("InputLowSensor2").value);
+var minimum = document.getElementById("InputLowSensor1").value
+var minMultiplier=document.getElementById("InputLowSensor2").value
 var max=JSON.parse(document.getElementById("InputHighSensor1").value)
                         *JSON.parse(document.getElementById("InputHighSensor2").value);
+var maximun = document.getElementById("InputHighSensor1").value
+var maxMultiplier=document.getElementById("InputHighSensor2").value
+
 console.log(min);
 console.log(max);
 
@@ -68,13 +73,26 @@ var lowAlarmChecked = document.getElementById("AlarmCheckLow");
 var highAlarmChecked = document.getElementById("AlarmCheckHigh");           
 lowAlarmChecked =   lowAlarmChecked.checked;
 highAlarmChecked = highAlarmChecked.checked;
-var unit=document.getElementById("MesauringUnits").innerHTML;
+var primary = document.getElementById("MesauringUnits");
+    var unit = primary.options[primary.selectedIndex].value;
+
+    var secondary = document.getElementById("SecondaryUnits");
+    var unit2 = secondary.options[secondary.selectedIndex].value;
+
 var unit2=document.getElementById("SecondaryUnits").innerHTML;
 // var e = document.getElementById("GaugeColor");
 // var gaugeColor = e.options[e.selectedIndex].value;
 var gauge;
 var majorTicks=[];
+
+
+
+
+
+
+
 majorTicks= calculateMajorTicks(min,max,10);
+
 if(a==1){
     console.log("inside if")
 
@@ -85,6 +103,16 @@ if(a==1){
     if(lowAlarmPercent > highAlarmPercent ){
         return window.alert("Please enter Alarm value low < high")
     }
+    storeSettings()
+    localStorage.setItem("min",minimum)
+    localStorage.setItem("minMultiplier",minMultiplier)
+    localStorage.setItem("max",maximun)
+    localStorage.setItem("maxMultiplier",maxMultiplier)
+    localStorage.setItem("lowAlarmPercent",lowAlarmPercent)
+    localStorage.setItem("highAlarmPercent",highAlarmPercent)
+    localStorage.setItem("lowAlarmChecked",lowAlarmChecked)
+    localStorage.setItem("highAlarmChecked",highAlarmChecked)
+
     gauge=getCurrentSelected();
 }
 else{
@@ -190,6 +218,8 @@ return maxAlarmFinalValue
 
 }
 
+
+
 function resize() {
 var size = parseFloat(document.getElementById('gauge-size').value) || 500;
 
@@ -211,6 +241,47 @@ document.gauges.forEach(function (gauge) {
     gauge.update({ valueText: text });
 });
 }
+function storeSettings(){
+
+    var storeUnit1 = []
+    var storeUnit2 = []
+    var storeUnit3 = []
+    var gaugecolors = []
+    
+    var mainUnit = document.getElementById("GaugesSelector");
+    var primaryUnit = document.getElementById("MesauringUnits");
+    var secondaryUnit = document.getElementById("SecondaryUnits");
+    var gaugeColor =document.getElementById("GaugeColor"); 
+    
+    var mainlength = mainUnit.options.length
+    var primaryLength = primaryUnit.options.length
+    var secondaryLength = secondaryUnit.options.length
+    var gaugeColorLength = gaugeColor.options.length
+
+    for(var m=0; m<mainlength;m++){
+    storeUnit1.push(mainUnit.options[m].value)
+}
+for(var n=0; n<primaryLength;n++){
+    storeUnit2.push(primaryUnit.options[n].value)
+}
+for(var index=0; index<secondaryLength;index++){
+    storeUnit3.push(secondaryUnit.options[index].value)
+}
+
+for(var index=0; index<gaugeColorLength;index++){
+    gaugecolors.push(gaugeColor.options[index].value)
+}
+
+
+localStorage.setItem("mainUnit",JSON.stringify(storeUnit1))
+localStorage.setItem("primaryUnit",JSON.stringify(storeUnit2))
+localStorage.setItem("secondaryUnit",JSON.stringify(storeUnit3))
+localStorage.setItem("gaugeColors",JSON.stringify(gaugecolors))
+
+
+}
+
+
 
 function getCurrentSelected()
 {

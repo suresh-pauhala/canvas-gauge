@@ -6,31 +6,172 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mocha/1.0.2/package/lib/browser/fs.min.js"></script>
-<input type="button" name="Click Me" onclick="abc()"  id="" value="Click Me">
 </head>
 <body>
+<!-- Read <input type="number" id="maxlines"> lines from
+<input type="file" id="infile">.
+<input type="button" id="start" value="Print lines to console">
+<div>
+    <h1 id="abc">Hello</h1>
+</div>
+<input type="button" value="click me" onclick="change()">
+ -->
+ <input type="button" value="click me" onclick="localstorage()">
 
 <script>
-    function abc(){
-const rows = [
-    ["name1", "city1", "some other info"],
-    ["name2", "city2", "more info"]
-];
 
-let csvContent = "data:text/csv;charset=utf-8,";
-
-rows.forEach(function(rowArray) {
-    let row = rowArray.join(",");
-    csvContent += row + "\r\n";
-});
-var encodedUri = encodeURI(csvContent);
-var link = document.createElement("a");
-link.setAttribute("href", encodedUri);
-link.setAttribute("download", "my_data.csv");
-document.body.appendChild(link); // Required for FF
-
-link.click();
+function localstorage(){
+    localStorage.setItem("firstname", "suresh")
 }
+
+    // function change(){
+    //     abc = "abc"
+    //     document.getElementById(abc).style.display = "none"
+    // }
+
+// This is just an example of the function below.
+// document.getElementById('start').onclick = function() {
+//     var file = document.getElementById('infile').files[0];
+//     if (!file) {
+//         console.log('No file selected.');
+//         return;
+//     }
+//     var maxlines = parseInt(document.getElementById('maxlines').value, 10);
+//     var lineno = 1;
+//     // readSomeLines is defined below.
+//     readSomeLines(file, maxlines, function(line) {
+//         console.log("Line: " + (lineno++) + line);
+//     }, function onComplete() {
+//         console.log('Read all lines');
+//     });
+// };
+
+// /**
+//  * Read up to and including |maxlines| lines from |file|.
+//  *
+//  * @param {Blob} file - The file to be read.
+//  * @param {integer} maxlines - The maximum number of lines to read.
+//  * @param {function(string)} forEachLine - Called for each line.
+//  * @param {function(error)} onComplete - Called when the end of the file
+//  *     is reached or when |maxlines| lines have been read.
+//  */
+// function readSomeLines(file, maxlines, forEachLine, onComplete) {
+//     var CHUNK_SIZE = 50000; // 50kb, arbitrarily chosen.
+//     var decoder = new TextDecoder();
+//     var offset = 0;
+//     var linecount = 0;
+//     var linenumber = 0;
+//     var results = '';
+//     var fr = new FileReader();
+//     fr.onload = function() {
+//         // Use stream:true in case we cut the file
+//         // in the middle of a multi-byte character
+// 		console.log(fr.readAsArrayBuffer(fr.result))
+//         results += decoder.decode(fr.result, {stream: true});
+//         var lines = results.split('\n');
+//         results = lines.pop(); // In case the line did not end yet.
+//         linecount += lines.length;
+    
+//         if (linecount > maxlines) {
+//             // Read too many lines? Truncate the results.
+//             lines.length -= linecount - maxlines;
+//             linecount = maxlines;
+//         }
+    
+//         for (var i = 0; i < lines.length; ++i) {
+//             forEachLine(lines[i] + '\n');
+//         }
+//         offset += CHUNK_SIZE;
+//         seek();
+//     };
+//     fr.onerror = function() {
+//         onComplete(fr.error);
+//     };
+//     seek();
+    
+//     function seek() {
+//         if (linecount === maxlines) {
+//             // We found enough lines.
+//             onComplete(); // Done.
+//             return;
+//         }
+//         if (offset !== 0 && offset >= file.size) {
+//             // We did not find all lines, but there are no more lines.
+//             forEachLine(results); // This is from lines.pop(), before.
+//             onComplete(); // Done
+//             return;
+//         }
+//         var slice = file.slice(offset, offset + CHUNK_SIZE);
+//         fr.readAsArrayBuffer(slice);
+//     }
+// }
+
+
+
+/*
+function abc(){
+  
+ readTextFile("/password.txt");
+  
+}
+
+
+function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                var allText = rawFile.responseText;
+                alert(allText);
+            }
+        }
+    }
+    rawFile.send(null);
+}
+*/
+// function abc(){
+
+// var file = new File([""], "../settings.csv", {type: "text/csv"})
+// console.log(file)
+//var file = new File('data:text/csv','RT3.csv');
+// if(! file.exist){
+//     file.create()
+// }
+
+// file.open('w');
+// file.writeln(",",docRef.name);
+// file.close();
+// }
+
+//     function abc(){
+// const rows = [
+//     ["name1", "city1", "some other info"],
+//     ["name2", "city2", "more info"]
+// ];
+
+// let csvContent = "data:text/csv;charset=utf-8,";
+
+// rows.forEach(function(rowArray) {
+//     let row = rowArray.join(",");
+//     csvContent += row + "\r\n";
+// });
+// console.log(csvContent)
+
+
+
+// var encodedUri = encodeURI(csvContent);
+// var link = document.createElement("a");
+// link.setAttribute("href", encodedUri);
+// link.setAttribute("download", "my_data.csv");
+// document.body.appendChild(link); // Required for FF
+// console.log(link.href)
+// link.click()
+// }
 
 // var x=LinkCheck("file:///S:/canvas-gauges/canvas-gauges/milestone2/script.js");
 

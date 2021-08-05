@@ -24,7 +24,7 @@
 </head>
 <body style="background-color:#ffffcc">
     <p style="margin-left:80%;" class="p-3">
-        <a class="btn btn-primary" data-bs-toggle="collapse" id="settings" href="#collapseExample1" onclick="" role="button" aria-expanded="false" aria-controls="collapseExample collapseExample1">
+        <a class="btn btn-primary" data-bs-toggle="collapse" id="settings" href="" onclick="" role="button" aria-expanded="false" aria-controls="collapseExample collapseExample1">
           Settings
         </a>
         
@@ -51,11 +51,13 @@
 
                     <label for="GaugesSelector" class="form-label">Gauges To Mesaure</label>
                 <select id="GaugesSelector" name="GaugesSelector">
-                    <option value="weight">Weight</option>
-                    <option value="pressure">Pressure</option>
+                    <option value="weight">Weight<span> <i class="p-0 fa fa-plus fa-md" aria-hidden="true"></i></span></option><span><i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
+                    <option value="pressure">Pressure <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></option>
                     <option value="torque">Torque</option>
                   </select>
-                  
+                  <input type="button" style="width:21%"  class=" m-1 d-inline form-control btn btn-primary btn-sm " id="removebutton" onclick="removeElement()" value="remove">
+
+
                   <!-- <i class=" p-2 fa fa-minus" aria-hidden=""></i>  -->
                   <div>
 
@@ -79,7 +81,7 @@
 
                   <div class="" style="visibility: hidden;" id="MeasuringUnitInputDiv">
                     <input type="text"   class=" mt-2 form-control d-inline inputWidth w-50" id="MeasuringUnitInput" >
-                    <span onclick = "addUnit(0)"> <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
+                    <span onclick = "addUnit2(0)"> <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
                   </div>
                     <!-- <p>Mesauring Units <span id="MesauringUnits" class="p-1  bg-secondary text-white">Lbs</span></p> -->
                 </div>
@@ -95,7 +97,7 @@
                  <span onclick = "addUnit(2)"> <i class="pb-2 fa fa-plus" aria-hidden="true"></i></span> -->
                  <div class="" style="visibility: hidden;" id="SecondaryUnitInputDiv" >
                     <input type="text"   class=" mt-2 form-control d-inline inputWidth w-50" id="SecondaryUnitInput"  >
-                    <span onclick = "addUnit(0)"> <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
+                    <span onclick = "addUnit3(0)"> <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
                   </div>
 
                     <!-- <p>Secondary Units <span id="SecondaryUnits" class="p-1  bg-secondary text-white">Kgs</span></p> -->
@@ -248,34 +250,95 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script>
 
-//   window.onload = (event) => {
-//     var settings = document.getElementById("settings"); 
-//     var password = document.getElementById("collapseExample");  
-//     var settingsconfig = document.getElementById("collapseExample1");  
-//     var checksettings 
+  window.onload = (event) => {
 
-//     var url="script.js";
-    
-//     url+="?"+new Date().getTime()+Math.floor(Math.random()*1000000);
-//     var el=document.createElement('script');
+    var min = localStorage.getItem("min");
+    var minMultiplier = localStorage.getItem("minMultiplier")
+    var max = localStorage.getItem("max");
+    var maxMultiplier = localStorage.getItem("maxMultiplier")
+    var lowAlarmPercent = localStorage.getItem("lowAlarmPercent");
+    var highAlarmPercent = localStorage.getItem("highAlarmPercent");
+    var lowAlarmChecked = localStorage.getItem("lowAlarmChecked");
+    var highAlarmChecked = localStorage.getItem("highAlarmChecked");
 
-//     el.id="123";
+    var mainUnit = document.getElementById("GaugesSelector");
+    var primaryUnit = document.getElementById("MesauringUnits");
+    var secondaryUnit = document.getElementById("SecondaryUnits");
+    var gaugeColor =document.getElementById("GaugeColor"); 
+    
+    var main =JSON.parse(localStorage.getItem("mainUnit"))
+    var primaryLength = []
+    var secondaryLength = []
+    var gaugeColorLength = []
+
+    for(var n=0; n<main.length;n++){
+
+        var option = document.createElement("OPTION");
+
+        option.innerHTML = main[n];
+        option.value = main[n]; 
+        mainUnit.options.add(option)
+
+}
+
+    
+
+    document.getElementById("InputLowSensor1").value = min
+    document.getElementById("InputLowSensor2").value = minMultiplier
+    document.getElementById("InputHighSensor1").value = max
+    document.getElementById("InputHighSensor2").value =  maxMultiplier
+    document.getElementById("InputAlarmLow").value = lowAlarmPercent
+    document.getElementById("InputAlarmHigh").value = highAlarmPercent
+    if(lowAlarmChecked == "true"){
+
+    document.getElementById("AlarmCheckLow").checked = true
+    }
+    else{
+        document.getElementById("AlarmCheckLow").checked = false
+
+    }
+    if(highAlarmChecked == "true"){
+document.getElementById("AlarmCheckHigh").checked = true
+}
+else{
+    document.getElementById("AlarmCheckHigh").checked = false
+
+}
+    
+
+    var settings = document.getElementById("settings"); 
+    var password = document.getElementById("collapseExample");  
+    var settingsconfig = document.getElementById("collapseExample1");  
+    var checksettings 
+
+    var url="script.js";
+    
+    url+="?"+new Date().getTime()+Math.floor(Math.random()*1000000);
+    var el=document.createElement('script');
+
+    el.id="123";
     
     
-//     el.src=url;
-//     document.body.appendChild(el);
+    el.src=url;
+    document.body.appendChild(el);
     
-//     el.onerror=function(err){
-//         // myFunction()
-//         settings.href = "#collapseExample"; 
-//         checksettings = true
-//     }
+    el.onerror=function(err){
+        // myFunction()
+        settings.href = "#collapseExample"; 
+        checksettings = true
+    }
 
        
         
-//         settings.href = "#collapseExample1";   
-//         console.log(settings.href);
-//   };
+        settings.href = "#collapseExample1";   
+        console.log(settings.href);
+  };
+
+  function removeElement(){
+    var e = document.getElementById("GaugesSelector");
+    e.remove(e.selectedIndex);
+
+  }
   function checkSettingsDetails(){
     
     }
@@ -298,7 +361,34 @@
         option.value = document.getElementById("MeasureUnit").value;
         e.options.add(option)
     }
+  
     }
+
+    function addUnit2(a){
+        if(a == 0){
+        var e = document.getElementById("MesauringUnits");
+        var option = document.createElement("OPTION");
+
+        option.innerHTML = document.getElementById("MeasuringUnitInput").value;
+        option.value = document.getElementById("MeasuringUnitInput").value;
+        e.options.add(option)
+    }
+  
+    }
+
+    function addUnit3(a){
+        if(a == 0){
+        var e = document.getElementById("SecondaryUnits");
+        var option = document.createElement("OPTION");
+
+        option.innerHTML = document.getElementById("SecondaryUnitInput").value;
+        option.value = document.getElementById("SecondaryUnitInput").value;
+        e.options.add(option)
+    }
+  
+    }
+
+
 function showInput(){
     var x = document.getElementById("MeasureUnitDiv");
     if(x.style.visibility === "hidden"){
@@ -375,7 +465,7 @@ addOneChar(0)
 
 </script>
 
-<script src="../gauge.min.js"></script>
+<script src="gauge.min.js"></script>
 
 </body>
 </html>
