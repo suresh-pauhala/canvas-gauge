@@ -5,7 +5,7 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="script.js"></script>
+    
 
     <title>Gauge Test1</title>
     
@@ -24,11 +24,11 @@
 </head>
 <body style="background-color:#ffffcc">
     <p style="margin-left:80%;" class="p-3">
-        <a class="btn btn-primary" data-bs-toggle="collapse" id="settings" href="" onclick="" role="button" aria-expanded="false" aria-controls="collapseExample collapseExample1">
+        <a class="btn btn-primary" data-bs-toggle="collapse" id="settings" href="collapseExample1" onclick="" role="button" aria-expanded="false" aria-controls="collapseExample collapseExample1">
           Settings
         </a>
         
-      </p>
+    </p>
       <br>
       <div class="collapse  p-3 pt-0 " id="collapseExample">
         <div class="card card-body" style="background-color:#38b2ff">
@@ -36,9 +36,9 @@
         <div class=" mt-4 col-lg-12  col-md-6  text-center"> 
 
             <label class="form-label p-2 mt-2" style="font-weight:bold">Enter Password</label>
-                <input type="password" class="form-control d-inline inputWidth m-1">
+                <input type="password" class="form-control d-inline inputWidth m-1" id="password">
                 <button type="button" class="btn d-inline btn-primary mx-1 mt-0" onclick="savePassword()">Submit</button>
-
+                <p id="wrongpassword" style="color: red;"></p>
         </div>
     </div>
       </div>
@@ -50,72 +50,83 @@
                 <div class="col-3">
 
                     <label for="GaugesSelector" class="form-label">Gauges To Mesaure</label>
-                <select id="GaugesSelector" name="GaugesSelector">
-                    <option value="weight">Weight<span> <i class="p-0 fa fa-plus fa-md" aria-hidden="true"></i></span></option><span><i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
-                    <option value="pressure">Pressure <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></option>
-                    <option value="torque">Torque</option>
+                <select id="GaugesSelector" name="GaugesSelector" onchange="GaugesSelectorChange()">
+                    <option value="gauge-1">gauge-1</option>
+                    <option value="gauge-2">gauge-2</option>
+                    <option value="gauge-3">gauge-3</option>
                   </select>
-                  <input type="button" style="width:21%"  class=" m-1 d-inline form-control btn btn-primary btn-sm " id="removebutton" onclick="removeElement()" value="remove">
-
-
-                  <!-- <i class=" p-2 fa fa-minus" aria-hidden=""></i>  -->
-                  <div>
-
                   
-                  <input type="button" style="width:35%"  class=" p-1 m-2 d-inline form-control btn btn-primary btn-sm " id="unitbutton" onclick="showInput()" value="Add Unit">
-                <div class="d-inline" style="visibility: hidden;"   id="MeasureUnitDiv">
-                  <input type="text" class=" mt-2 form-control d-inline inputWidth w-50" id="MeasureUnit" >
-                  <span onclick = "addUnit(0)"> <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
+                
                 </div>
-            </div>
+
+                <div class="col-2">
+                    <label for="MeasuresSelect" class="form-label">Measures</label>
+                   
+                     <select id="MeasuresSelect" name="MeasuresSelect" onchange="MeasuresSelectChange()">
+                    
+                     </select>
                 </div>
+
                 <div class="col-2">
                     <label for="MesauringUnits" class="form-label">MesauringUnits</label>
-                <select id="MesauringUnits" name="GaugesSelector">
-                    <option value="bar">bar</option>
-                    <option value="ft-lbs">ft-lbs</option>
-                    <option value="kg">kg</option>
+                <select id="MesauringUnits" name="MesauringUnits">
+                    
                   </select>
-                  <!-- <input type="text" style="width:55%; height:45%; margin-left:1%;" class=" pt-0 d-inline form-control inputWidth" id="MeasuringUnitInput" >
-                  <span onclick = "addUnit(1)"> <i class="pb-2 fa fa-plus" aria-hidden="true"></i></span> -->
-
-                  <div class="" style="visibility: hidden;" id="MeasuringUnitInputDiv">
-                    <input type="text"   class=" mt-2 form-control d-inline inputWidth w-50" id="MeasuringUnitInput" >
-                    <span onclick = "addUnit2(0)"> <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
-                  </div>
-                    <!-- <p>Mesauring Units <span id="MesauringUnits" class="p-1  bg-secondary text-white">Lbs</span></p> -->
+                    
                 </div>
 
                 <div class="col-2">
                     <label for="SecondaryUnits" class="form-label">SecondaryUnits</label>
-                <select id="SecondaryUnits" name="GaugesSelector">
-                    <option value="psi">psi</option>
-                    <option value="nm">nm</option>
-                    <option value="lbs">lbs</option>
+                <select id="SecondaryUnits" name="SecondaryUnits">
+                    
                   </select>
-                  <!-- <input type="text" style="width:55%; height:45%; margin-left:1%;" class=" pt-3 d-inline form-control inputWidth" id="SecondaryUnitInput" >
-                 <span onclick = "addUnit(2)"> <i class="pb-2 fa fa-plus" aria-hidden="true"></i></span> -->
-                 <div class="" style="visibility: hidden;" id="SecondaryUnitInputDiv" >
-                    <input type="text"   class=" mt-2 form-control d-inline inputWidth w-50" id="SecondaryUnitInput"  >
-                    <span onclick = "addUnit3(0)"> <i class="p-0 fa fa-plus fa-lg" aria-hidden="true"></i></span>
-                  </div>
+                 
 
-                    <!-- <p>Secondary Units <span id="SecondaryUnits" class="p-1  bg-secondary text-white">Kgs</span></p> -->
                 </div>
 
 
-                <div class="col-4">
+                <div class="col-3">
                     
                     <label for="GaugeColor" class="form-label">Gauge Color</label>
-                <select id="GaugeColor" name="GaugeColorSelector">
+                <select id="GaugeColor" name="GaugeColor">
                     <option value="white">White</option>
                     <option value="black">black</option>
                     <option value="green">green</option>
+                    <option value="aqua">aqua</option>
+                    <option value="purple">purple</option>
+                    <option value="blue">blue</option>
+                    <option value="yellow">yellow</option>
                   </select>
-                  </div>
-      
 
-                  <hr>
+                  <input type="button"  class="  btn btn-primary btn-sm m-1 d-inline " id="unitbutton" onclick="removeColor()" value="remove">
+                  <input type="text" name="" id="colorInput" style="width:50%" class="form-control d-inline"> 
+                  <input type="button"  class="  btn btn-primary btn-sm m-3 " id="unitbutton" onclick="addColor()" value="Add Color">
+                  </div>
+                  
+                  <div class="mb-4">
+                  <input type="button"  class="  btn btn-primary btn-sm m-3 " id="unitbutton" onclick="showAddUnitInputs()" value="Add Unit">
+                  <input type="button"  class="btn btn-primary btn-sm m-3" id="removebutton" onclick="removeMeasure()" value="remove">
+                  <div class="row d-none" id="AddUnitInputs">
+                    <div class="col-3">
+                        <label for="Measure">Mesaure </label>
+                        <input type="text" name="Measure" id="MeasureInput" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <label for="MeasureUnit">Mesauring Unit </label>
+                        <input type="text" name="MeasureUnit" id="MeasureUnitInput" class="form-control">
+                    </div>
+                    <div class="col-4">
+                        <label for="MeasureSecondaryUnit">Mesauring Secondary Unit </label>
+                        <input type="text" name="MeasureSecondaryUnit" id="MeasureSecondaryUnitInput" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <i class="fa fa-plus mt-4" aria-hidden="true" onclick="addUnit()"></i> 
+                    </div>
+                </div>
+                </div>
+
+                  
+
                   <div class="col-12">
                 <input type="file" class="mr-1"> 
                 <label for="MaxTime" class="ml-0 d-inline form-label">Max Time</label>
@@ -124,7 +135,8 @@
                     <option value="2">2</option>
                     <option value="3">3</option>
                   </select>
-                <input type="button" onclick="updateGauge()" value="Submit">
+                  <p class="d-inline">sec</p>
+                <input type="button" class="m-3" onclick="updateGauge()" value="Submit">
             </div>
 
                 <div class=" mt-4 col-lg-6 col-md-6 text-center">
@@ -179,7 +191,7 @@
 <div>
     <div class="row">
 <div class="col-lg-4  text-center">
-    <canvas  id="WeightGauge"
+    <canvas  id="gauge-1"
          data-type="radial-gauge"
          data-animation-duration="500"
          data-min-value="0"
@@ -201,7 +213,7 @@
     </div>
 </div>
 <div class="col-lg-4  text-center">
-    <canvas id="PressureGauge" data-type="radial-gauge"
+    <canvas id="gauge-2" data-type="radial-gauge"
          data-animation-duration="500"
          data-min-value="0"
          data-max-value="100000"
@@ -222,7 +234,7 @@
     </div>
 </div>
 <div class="col-lg-4  text-center">
-    <canvas id="TorqueGauge"  data-type="radial-gauge"
+    <canvas id="gauge-3"  data-type="radial-gauge"
          data-animation-duration="500"
          data-min-value="0"
          data-max-value="100000"
@@ -248,163 +260,257 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="script.js"></script>
 <script>
+
+const MeasuresMap = new Map();
+const SettingsMap = new Map();
+var GaugeColors =[];
 
   window.onload = (event) => {
 
-    var min = localStorage.getItem("min");
-    var minMultiplier = localStorage.getItem("minMultiplier")
-    var max = localStorage.getItem("max");
-    var maxMultiplier = localStorage.getItem("maxMultiplier")
-    var lowAlarmPercent = localStorage.getItem("lowAlarmPercent");
-    var highAlarmPercent = localStorage.getItem("highAlarmPercent");
-    var lowAlarmChecked = localStorage.getItem("lowAlarmChecked");
-    var highAlarmChecked = localStorage.getItem("highAlarmChecked");
+    let gaugeColors;
+    gaugeColors = JSON.parse(localStorage.getItem('GaugeColors'));
 
-    var mainUnit = document.getElementById("GaugesSelector");
-    var primaryUnit = document.getElementById("MesauringUnits");
-    var secondaryUnit = document.getElementById("SecondaryUnits");
-    var gaugeColor =document.getElementById("GaugeColor"); 
-    
-    var main =JSON.parse(localStorage.getItem("mainUnit"))
-    var primaryLength = []
-    var secondaryLength = []
-    var gaugeColorLength = []
-
-    for(var n=0; n<main.length;n++){
-
-        var option = document.createElement("OPTION");
-
-        option.innerHTML = main[n];
-        option.value = main[n]; 
-        mainUnit.options.add(option)
-
-}
-
-    
-
-    document.getElementById("InputLowSensor1").value = min
-    document.getElementById("InputLowSensor2").value = minMultiplier
-    document.getElementById("InputHighSensor1").value = max
-    document.getElementById("InputHighSensor2").value =  maxMultiplier
-    document.getElementById("InputAlarmLow").value = lowAlarmPercent
-    document.getElementById("InputAlarmHigh").value = highAlarmPercent
-    if(lowAlarmChecked == "true"){
-
-    document.getElementById("AlarmCheckLow").checked = true
+    if(gaugeColors != null && gaugeColors.length!=0){
+        let colorSelect = document.getElementById('GaugeColor');
+        GaugeColors = gaugeColors;
+        
+        GaugeColors.forEach(
+            function(item)
+            {
+                let option = document.createElement("OPTION");
+                option = document.createElement("OPTION");
+                option.text = option.value = item;
+                colorSelect.appendChild(option);
+            }
+        )
     }
-    else{
-        document.getElementById("AlarmCheckLow").checked = false
+    
+
+
+    if(localStorage.getItem('Measures')!=null && localStorage.getItem('Measures') != "{}")
+    {
+       let Measureslocal = JSON.parse(localStorage.getItem ('Measures'));
+
+        Object.keys(Measureslocal).forEach(
+            function(key){MeasuresMap.set (key , Measureslocal[key]);}
+        )
+
+        let MeasuresSelect = document.getElementById('MeasuresSelect');
+
+        MeasuresMap.forEach(
+            function(value,key)
+            {
+                let option = document.createElement("OPTION");
+                option.text = key;
+                option.value = key;
+                MeasuresSelect.appendChild(option);
+            }
+        )
+
+        //let Units = MeasuresMap.get(Array.from(MeasuresMap.keys())[0]);
+        let Units ;
+
+        let e = document.getElementById("MeasuresSelect");
+        let value = e.options[e.selectedIndex].value;
+
+        Units = MeasuresMap.get(value);
+        let MesauringUnits = document.getElementById('MesauringUnits');
+        Units.PrimaryMeasuringUnits.forEach(
+        function(item){
+            let option = document.createElement("OPTION");
+            option.text = item;
+            option.value = item;
+            MesauringUnits.appendChild(option);
+        })
+
+        let SecondaryUnits = document.getElementById('SecondaryUnits');
+        Units.SecondaryMeasuringUnits.forEach(
+        function(item){
+            let option = document.createElement("OPTION");
+            option.text = item;
+            option.value = item;
+            SecondaryUnits.appendChild(option);
+        })
 
     }
-    if(highAlarmChecked == "true"){
-document.getElementById("AlarmCheckHigh").checked = true
-}
-else{
-    document.getElementById("AlarmCheckHigh").checked = false
 
-}
-    
+    if(localStorage.getItem('settings')!=null && localStorage.getItem('settings') != "{}" )
+    {
+       let Settingslocal = JSON.parse(localStorage.getItem ('settings'));
+
+
+        Object.keys(Settingslocal).forEach(
+            function(key){SettingsMap.set (key , Settingslocal[key]);}
+        )
+
+        // let MeasuresSelect = document.getElementById('MeasuresSelect');
+
+
+        SettingsMap.forEach(
+            function(value,key)
+            {
+                for(let i=0 ; i < document.gauges.length; i++)
+                {
+                    if(document.gauges[i].options.renderTo.id == key)
+                    {
+                        let gauge = document.gauges[i];
+                        let minVal = JSON.parse(value.min) * JSON.parse(value.minMultiplier);
+                        let maxVal = JSON.parse(value.max) * JSON.parse(value.maxMultiplier);
+                        let gaugeColor = value.gaugeColor;
+
+                        gauge.options.colorPlate= gaugeColor;
+                        gauge.options.minValue = minVal;
+                        gauge.options.maxValue = maxVal;
+                        gauge.options.majorTicks = calculateMajorTicks(minVal,maxVal,10);
+
+                        if(value.lowAlarmChecked && value.highAlarmChecked){
+                            var lowalarm = calculateAlarm(minVal,maxVal,value.lowAlarmPercent);  
+                            var highalarm = calculateAlarm(minVal,maxVal,value.highAlarmPercent);  
+                           
+                            gauge.options.highlights[0].from = minVal
+                            gauge.options.highlights[0].to = lowalarm
+                            gauge.options.highlights[1].from = highalarm        
+                            gauge.options.highlights[1].to = maxVal
+                        }
+                        else if(value.highAlarmChecked){
+                            var highalarm = calculateAlarm(minVal,maxVal,value.highAlarmPercent);  
+                            
+                                gauge.options.highlights[0].from = ""
+                                gauge.options.highlights[0].to =""
+                                gauge.options.highlights[1].from = highalarm        
+                                gauge.options.highlights[1].to = maxVal
+                            }
+                        else  if(value.lowAlarmChecked){
+                                var lowalarm = calculateAlarm(minVal,maxVal,value.lowAlarmPercent);  
+                                gauge.options.highlights[0].from = minVal          
+                                gauge.options.highlights[0].to = lowalarm
+                                gauge.options.highlights[1].from = ""        
+                                gauge.options.highlights[1].to = max =""
+                            }
+                        else if(!lowAlarmChecked && !highAlarmChecked){
+                            gauge.options.highlights[1].from = ""       
+                            gauge.options.highlights[1].to = ""
+                            gauge.options.highlights[0].from = ""        
+                            gauge.options.highlights[0].to = max =""
+                        }
+
+                        gauge.update();
+                        setAlarm(gauge);
+
+                        
+                    }
+                }
+            }
+        )
+
+        if(SettingsMap.get('gauge-1') != undefined){
+            document.getElementById("InputLowSensor1").value = SettingsMap.get('gauge-1').min
+            document.getElementById("InputLowSensor2").value = SettingsMap.get('gauge-1').minMultiplier
+            document.getElementById("InputHighSensor1").value = SettingsMap.get('gauge-1').max
+            document.getElementById("InputHighSensor2").value =  SettingsMap.get('gauge-1').maxMultiplier
+            document.getElementById("InputAlarmLow").value = SettingsMap.get('gauge-1').lowAlarmPercent
+            document.getElementById("InputAlarmHigh").value = SettingsMap.get('gauge-1').highAlarmPercent
+            document.getElementById("AlarmCheckLow").checked = SettingsMap.get('gauge-1').lowAlarmChecked
+            document.getElementById("AlarmCheckHigh").checked = SettingsMap.get('gauge-1').highAlarmChecked
+
+            var e = document.getElementById("GaugeColor");
+            var value = e.options[e.selectedIndex].value;
+
+            let i=0;
+            for(;i<e.length;i++)
+            {
+                if(e.options[i].value == SettingsMap.get('gauge-1').gaugeColor)
+                    break;
+            }
+
+            document.getElementById("GaugeColor").selectedIndex=i;
+
+        }
+
+    }
+
 
     var settings = document.getElementById("settings"); 
     var password = document.getElementById("collapseExample");  
     var settingsconfig = document.getElementById("collapseExample1");  
     var checksettings 
 
-    var url="script.js";
+    // var url="script.js";
     
-    url+="?"+new Date().getTime()+Math.floor(Math.random()*1000000);
-    var el=document.createElement('script');
+    // url+="?"+new Date().getTime()+Math.floor(Math.random()*1000000);
+    // var el=document.createElement('script');
 
-    el.id="123";
+    // el.id="123";
     
     
-    el.src=url;
-    document.body.appendChild(el);
+    // el.src=url;
+    // document.body.appendChild(el);
     
-    el.onerror=function(err){
-        // myFunction()
-        settings.href = "#collapseExample"; 
-        checksettings = true
-    }
+    // el.onerror=function(err){
+    //     // myFunction()
+    //     settings.href = "#collapseExample"; 
+    //     checksettings = true
+    // }
 
+
+
+
+    // storepassword = "1"
+    // //   storepassword = "Cgmp@150"
+    //   localStorage.setItem("password", storepassword)
        
         
-        settings.href = "#collapseExample1";   
+        settings.href = "#collapseExample";   
         console.log(settings.href);
   };
+  
+function  GaugesSelectorChange()
+    {
+        let e = document.getElementById("GaugesSelector");
+        let gaugeName = e.options[e.selectedIndex].value;   
 
-  function removeElement(){
-    var e = document.getElementById("GaugesSelector");
-    e.remove(e.selectedIndex);
+        let value =  SettingsMap.get(gaugeName);
+        if(value != undefined){
+            document.getElementById("InputLowSensor1").value = value.min
+            document.getElementById("InputLowSensor2").value = value.minMultiplier
+            document.getElementById("InputHighSensor1").value = value.max
+            document.getElementById("InputHighSensor2").value =  value.maxMultiplier
+            document.getElementById("InputAlarmLow").value = value.lowAlarmPercent
+            document.getElementById("InputAlarmHigh").value = value.highAlarmPercent
+            document.getElementById("AlarmCheckLow").checked = value.lowAlarmChecked
+            document.getElementById("AlarmCheckHigh").checked = value.highAlarmChecked
+        }
 
-  }
+    }
+
+
   function checkSettingsDetails(){
     
     }
     
   function savePassword(){
-      //create password file first
-    var settings = document.getElementById("settings"); 
-     document.getElementById("collapseExample").classList.remove("show");
-     document.getElementById("collapseExample1").classList.add("show") ;
-       settings.href = "#collapseExample1";   
+    
+      var password_input = document.getElementById("password").value
+      var password_retrieved = localStorage.getItem("password")
+
+      if(password_retrieved == password_input)
+    {
+        
+        document.getElementById("collapseExample").classList.remove("show");
+        document.getElementById("collapseExample1").classList.add("show") ;
+        settings.href = "#collapseExample1";  
+    }
+    else{
+        settings.href = "#collapseExample";  
+        document.getElementById("wrongpassword").innerHTML = "Wrong Password"
+
+    }
+        
 
   }
 
-    function addUnit(a){
-        if(a == 0){
-        var e = document.getElementById("GaugesSelector");
-        var option = document.createElement("OPTION");
-
-        option.innerHTML = document.getElementById("MeasureUnit").value;
-        option.value = document.getElementById("MeasureUnit").value;
-        e.options.add(option)
-    }
-  
-    }
-
-    function addUnit2(a){
-        if(a == 0){
-        var e = document.getElementById("MesauringUnits");
-        var option = document.createElement("OPTION");
-
-        option.innerHTML = document.getElementById("MeasuringUnitInput").value;
-        option.value = document.getElementById("MeasuringUnitInput").value;
-        e.options.add(option)
-    }
-  
-    }
-
-    function addUnit3(a){
-        if(a == 0){
-        var e = document.getElementById("SecondaryUnits");
-        var option = document.createElement("OPTION");
-
-        option.innerHTML = document.getElementById("SecondaryUnitInput").value;
-        option.value = document.getElementById("SecondaryUnitInput").value;
-        e.options.add(option)
-    }
-  
-    }
-
-
-function showInput(){
-    var x = document.getElementById("MeasureUnitDiv");
-    if(x.style.visibility === "hidden"){
-        document.getElementById("MeasureUnitDiv").style.visibility = "visible"; 
-        document.getElementById("MeasuringUnitInputDiv").style.visibility = "visible"; 
-        document.getElementById("SecondaryUnitInputDiv").style.visibility = "visible"; 
-    }
-    else{
-    document.getElementById("MeasureUnitDiv").style.visibility = "hidden"; 
-    document.getElementById("MeasuringUnitInputDiv").style.visibility = "hidden"; 
-    document.getElementById("SecondaryUnitInputDiv").style.visibility = "hidden"; 
-    }
-    
-
-
-}
 
 var input = document.querySelector('input[type="file"]')
 input.addEventListener('change', function (e) {
@@ -461,7 +567,32 @@ function addFileData(lines) {
 addOneChar(0)
 
 }
+function removeColor(){
+    let colorInput = document.getElementById('colorInput').value.toLowerCase(); 
+    let colorSelect = document.getElementById('GaugeColor');
+    let localColors = JSON.parse(localStorage.getItem("GaugeColors"));
+    console.log(localColors)
 
+    var e = document.getElementById("GaugeColor");
+    var colorName = e.options[e.selectedIndex].value;
+    e.remove(e.selectedIndex);
+    console.log(colorName)
+    for(i=0; i < localColors.length; i++){
+        console.log(localColors.length)
+        console.log(localColors[i].value)
+
+        if(localColors[i] == colorName)
+        {
+            console.log(localColors[i])
+            localColors.splice(i, 1);            
+        }
+
+    }
+    
+    localStorage.setItem('GaugeColors',JSON.stringify(localColors));
+
+
+}
 
 </script>
 

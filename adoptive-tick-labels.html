@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Gauge Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="script.js"></script>
+
+    <script src="gauge.min.js"></script>
+    <style>body {
+        padding: 0;
+        margin: 0;
+        background: #ffffcc
+    }</style>
+</head>
+<body>
+
+<div style="margin-top:2%">
+    <div class="row">
+        <div class="col-lg-4  text-center">
+        <canvas  data-type="radial-gauge"
+         data-min-value="13"
+         data-max-value="87"
+         data-exact-ticks="true"
+         data-major-ticks="13,20,25,38,50,62,80,87"
+         data-minor-ticks="2"
+         data-highlights="0"
+         data-width="450"
+         data-height="450">
+        </canvas>
+        <div>
+            <p style="font-size:120% ; display:inline; font-weight: bold; color: rgb(45, 45, 192);">Value</p>
+            <input type="number" class="" min="0" max="100000" oninput="animateGauges(this.value,0)">
+        </div>
+        </div>
+
+        <div class="col-lg-4  text-center">
+
+        <canvas  data-type="radial-gauge"
+            data-min-value="13"
+            data-max-value="87"
+            data-exact-ticks="true"
+            data-major-ticks="13,20,25,38,50,62,80,87"
+            data-minor-ticks="2"
+            data-highlights="0"
+            data-width="450"
+            data-height="450"
+            data-font-numbers-size="10">
+        </canvas>
+        <div>
+            <p style="font-size:120% ; display:inline; font-weight: bold; color: rgb(45, 45, 192);">Value</p>
+            <input type="number" class="" min="0" max="100000" oninput="animateGauges(this.value,1)">
+        </div>               
+        </div>
+
+        <div class="col-lg-4  text-center">
+        <canvas  data-type="radial-gauge"
+            data-min-value="13"
+            data-max-value="87"
+            data-exact-ticks="true"
+            data-major-ticks="13,20,25,38,50,62,80,87"
+            data-minor-ticks="2"
+            data-highlights="0"
+            data-width="450"
+            data-height="450"
+            data-font-numbers-size="20">
+        </canvas>
+        <div>
+            <p style="font-size:120% ; display:inline; font-weight: bold; color: rgb(45, 45, 192);">Value</p>
+            <input type="number" class="" min="0" max="100000" oninput="animateGauges(this.value,2)">
+        </div>     
+        
+        </div>
+    </div>
+<hr>
+    <div class="row" style="margin-top:2%">
+        <div class="col-lg-4  text-center">
+        <canvas  data-type="radial-gauge"
+            data-min-value="13"
+            data-max-value="87"
+            data-exact-ticks="true"
+            data-major-ticks="13,20,25,38,50,62,80,87"
+            data-minor-ticks="2"
+            data-highlights="0"
+            data-width="450"
+            data-height="450"
+            data-font-numbers-size="30">
+        </canvas>
+   
+        <div>
+            <p style="font-size:120% ; display:inline; font-weight: bold; color: rgb(45, 45, 192);">Value</p>
+            <input type="number" class="" min="0" max="100000" oninput="animateGauges(this.value,3)">
+        </div>
+        </div>
+
+        <div class="col-lg-4  text-center">
+
+        <canvas  data-type="radial-gauge"
+            data-min-value="13"
+            data-max-value="87"
+            data-exact-ticks="true"
+            data-major-ticks="13,20,25,38,50,62,80,87"
+            data-minor-ticks="2"
+            data-highlights="0"
+            data-width="450"
+            data-height="450"
+            data-font-numbers-size="40">
+        </canvas>
+        <div>
+            <p style="font-size:120% ; display:inline; font-weight: bold; color: rgb(45, 45, 192);">Value</p>
+            <input type="number" class="" min="0" max="100000" oninput="animateGauges(this.value,1)">
+        </div>               
+        </div>
+
+        <div class="col-lg-4  text-center">
+        <canvas  data-type="radial-gauge"
+            data-min-value="13"
+            data-max-value="87"
+            data-exact-ticks="true"
+            data-major-ticks="13,20,25,38,50,62,80,87"
+            data-minor-ticks="2"
+            data-highlights="0"
+            data-width="450"
+            data-height="450"
+            data-font-numbers-size="50">
+        </canvas>
+        <div>
+            <p style="font-size:120% ; display:inline; font-weight: bold; color: rgb(45, 45, 192);">Value</p>
+            <input type="number" class="" min="0" max="100000" oninput="animateGauges(this.value,2)">
+        </div>     
+        
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+if (!Array.prototype.forEach) {
+    Array.prototype.forEach = function(cb) {
+        var i = 0, s = this.length;
+        for (; i < s; i++) {
+            cb && cb(this[i], i, this);
+        }
+    }
+}
+
+document.fonts && document.fonts.forEach(function(font) {
+    font.loaded.then(function() {
+        if (font.family.match(/Led/)) {
+            document.gauges.forEach(function(gauge) {
+                gauge.update();
+            });
+        }
+    });
+});
+
+var timers = [];
+
+function animateGauges(value,index) {
+document.gauges[index].value = value;
+document.gauges[index].animation.update ;
+}
+
+function stopGaugesAnimation() {
+    timers.forEach(function(timer) {
+        clearInterval(timer);
+    });
+}
+</script>
+</body>
+</html>

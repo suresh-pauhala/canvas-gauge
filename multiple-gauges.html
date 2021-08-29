@@ -1,0 +1,1649 @@
+<!-- Gaugeid and measure name in same select ele +
+    visibility trigger on add unit button +
+    remove unit button function +
+    X to remvoe gauge and option  
+    horizontal and vertical +
+    change gauge color not working
+    unit store in localstorage-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiple Gauges</title>
+
+    <style>
+    body {
+        padding: 0;
+        margin: 0;
+        background: #fff
+    }
+    
+    .inputWidth
+    {
+        width: 20%;
+    }
+    </style>
+    
+</head>
+<body>
+
+    <p style="margin-left:80%;" class="p-3">
+        <a class="btn btn-primary" data-bs-toggle="collapse" id="settings" href="#collapseExample1" onclick="" role="button" aria-expanded="false" aria-controls="SettingsCollapse">
+          Settings
+        </a>
+    </p>
+    <br>
+      <div class="collapse  p-3 pt-0 " id="collapseExample">
+        <div class="card card-body" style="background-color:#38b2ff">
+            <div class="row">
+        <div class=" mt-4 col-lg-12  col-md-6  text-center"> 
+
+            <label class="form-label p-2 mt-2" style="font-weight:bold">Enter Password</label>
+                <input type="password" class="form-control d-inline inputWidth m-1" id="password">
+                <button type="button" class="btn d-inline btn-primary mx-1 mt-0" onclick="savePassword()">Submit</button>
+                <p id="wrongpassword" style="color: red;"></p>
+        </div>
+    </div>
+      </div>
+    </div>
+
+    <div class="collapse p-3 pt-0 " id="collapseExample1">
+        <div class="card card-body" style="background-color:#38b2ff">
+            
+            <form class="row">
+                <div class="col-3">
+
+                    <label for="GaugesSelector" class="form-label">Gauges</label>
+                <select id="GaugesSelector" name="GaugesSelector" onchange="GaugesSelectorChange()">
+                    
+                  </select>
+                  
+                
+                </div>
+
+                <div class="col-2">
+                    <label for="MeasuresSelect" class="form-label">Measures</label>
+                  
+                     <select id="MeasuresSelect" name="MeasuresSelect" onchange="MeasuresSelectChange()">
+                    
+                     </select>
+                </div>
+
+                <div class="col-2">
+                    <label for="MesauringUnits" class="form-label">MesauringUnits</label>
+                <select id="MesauringUnits" name="MesauringUnits">
+                    
+                  </select>
+                  
+                </div>
+
+                <div class="col-2">
+                    <label for="SecondaryUnits" class="form-label">SecondaryUnits</label>
+                <select id="SecondaryUnits" name="SecondaryUnits">
+                    
+                  </select>
+            
+                </div>
+
+
+                <div class="col-3">
+                    
+                    <label for="GaugeColor" class="form-label">Gauge Color</label>
+                    <select id="GaugeColor" name="GaugeColorSelector">
+                    <option value="white">White</option>
+                    <option value="black">black</option>
+                    <option value="green">green</option>
+                    <option value="aqua">aqua</option>
+                    <option value="purple">purple</option>
+                    <option value="blue">blue</option>
+                    <option value="yellow">yellow</option>
+                  </select>
+
+                  <input type="button"  class="  btn btn-primary btn-sm m-1 d-inline " id="unitbutton" onclick="removeColor()" value="remove">
+                  <input type="text" name="" id="colorInput" style="width:50%" class="form-control d-inline"> 
+                  <input type="button"  class="  btn btn-primary btn-sm m-3 " id="unitbutton" onclick="addColor()" value="Add Color">
+                  
+                  </div>
+                  
+                  <div class="mb-4">
+                    <input type="button"  class="  btn btn-primary btn-sm m-3 " id="unitbutton" onclick="showAddUnitInputs()" value="Add Unit">
+                    <input type="button"  class="btn btn-primary btn-sm m-3" id="removebutton" onclick="removeMeasure()" value="remove">
+                    <div class="row d-none" id="AddUnitInputs">
+                      <div class="col-3">
+                          <label for="Measure">Mesaure </label>
+                          <input type="text" name="Measure" id="MeasureInput" class="form-control">
+                      </div>
+                      <div class="col-3">
+                          <label for="MeasureUnit">Mesauring Unit </label>
+                          <input type="text" name="MeasureUnit" id="MeasureUnitInput" class="form-control">
+                      </div>
+                      <div class="col-4">
+                          <label for="MeasureSecondaryUnit">Mesauring Secondary Unit </label>
+                          <input type="text" name="MeasureSecondaryUnit" id="MeasureSecondaryUnitInput" class="form-control">
+                      </div>
+                      <div class="col-2">
+                          <i class="fa fa-plus mt-4" aria-hidden="true" onclick="addUnit()"></i> 
+                      </div>
+                  </div>
+                  </div>
+
+                  <div class="col-12">
+                    <input type="file" class="mr-1"> 
+                    <label for="MaxTime" class="ml-0 d-inline form-label">Max Time</label>
+                    <select id="MaxTime" name="MaxTimeSelector">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <p class="d-inline">sec</p>
+                    <input type="button" class="m-3" onclick="updateGauge()" value="Submit">
+                </div>
+                  
+                  <!-- <div class="col-12">
+                <input type="file" class="mr-1"> 
+                <label for="MaxTime" class="ml-0 d-inline form-label">Max Time</label>
+                <select id="MaxTime" name="MaxTimeSelector">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </select>
+                <input type="button" onclick="updateGauge()" value="Submit">
+            </div> -->
+
+                <div class=" mt-4 col-lg-6 col-md-6 text-center">
+                    <h3 class="">Low</h3>
+                
+                    
+                    <div >
+                        <label  class="form-label">Sensor</label>
+                        <input type="number" class="form-control d-inline inputWidth" id="InputLowSensor1" value="-1000">
+                        <span class="px-2">X</span>
+                        <input type="number" class="form-control d-inline inputWidth" id="InputLowSensor2" value="1">
+                    </div>  
+                
+                    <div style="margin-right: 8.8%;" >
+                        <label  class="form-label mt-3">Alarm</label>
+                        <input type="number" class="form-control d-inline inputWidth" id="InputAlarmLow" value="20">
+                        <span class="px-2">%</span>
+                        <div class="d-inline-block form-check">
+                            <input type="checkbox" class="form-check-input" id="AlarmCheckLow" checked>
+                            <label class="form-check-label" >Enable</label>
+                          </div>
+                    </div>
+                
+            </div>
+            <div class="mt-4 col-lg-6 col-md-6 text-center">
+                <h3 class="">High</h3>
+            
+                
+                <div >
+                    <label class="form-label">Sensor</label>
+                    <input type="number" class="form-control d-inline inputWidth" id="InputHighSensor1" value="1000"> 
+                    <span class="px-2">X</span>
+                    <input type="number" class="form-control d-inline inputWidth" id="InputHighSensor2" value="1">
+                </div>  
+            
+                <div style="margin-right: 8.8%;" >
+                    <label  class="form-label mt-3">Alarm</label>
+                    <input type="number" class="form-control d-inline inputWidth" id="InputAlarmHigh" value="80">
+                    <span class="px-2">%</span>
+                    <div class="d-inline-block form-check">
+                        <input type="checkbox" class="form-check-input" id="AlarmCheckHigh" checked>
+                        <label class="form-check-label" >Enable</label>
+                      </div>
+                </div>
+            
+        </div>
+
+        <div class="text-center"><button type="button" class="btn btn-primary mt-4" onclick="saveOnClick(1)">Save and Return</button></div>
+              </form>
+        </div>
+      </div>
+
+
+    <div>
+        <label for="GaugesSelector" class="form-label">Gauges To Mesaure</label>
+        <select id="GaugeSelector" name="GaugeSelector">
+            <option value="simple gauge">simple gauge </option>
+            <option value="linear gauge">linear gauge</option>
+            <option value="temperature">temperature</option>
+            <option value="temperature advance">temperature advance</option>
+            <option value="temperature1">temperature1</option>
+            <option value="temperature2">temperature2</option>
+            <option value="temperature3">temperature3</option>
+            <option value="temperature4">temperature4</option>
+            <option value="compass">compass</option>
+            <option value="custom gauge2">custom gauge2</option>
+            <option value="gauge360">gauge360</option>
+
+
+        </select>
+        
+        <div class="p-2"><button type="button" class="btn btn-primary mt-4" onclick="addGauge()">Add
+                Gauge</button></div>
+
+    </div>
+
+    <div class="row" id="gaugesRow">
+        
+    </div>
+    
+
+</body>
+<script src="gauge.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="script.js"></script>
+<script>
+
+const MeasuresMap = new Map();
+const SettingsMap = new Map();
+var GaugeColors =[];
+
+window.onload = (event) => {
+
+    let gaugeColors;
+    gaugeColors = JSON.parse(localStorage.getItem('GaugeColors'));
+
+    if(gaugeColors != null && gaugeColors.length!=0){
+        let colorSelect = document.getElementById('GaugeColor');
+        GaugeColors = gaugeColors;
+        
+        GaugeColors.forEach(
+            function(item)
+            {
+                let option = document.createElement("OPTION");
+                option = document.createElement("OPTION");
+                option.text = option.value = item;
+                colorSelect.appendChild(option);
+            }
+        )
+    }
+
+    if(localStorage.getItem('Measures')!=null && localStorage.getItem('Measures') != "{}")
+    {
+       let Measureslocal = JSON.parse(localStorage.getItem ('Measures'));
+
+        Object.keys(Measureslocal).forEach(
+            function(key){MeasuresMap.set (key , Measureslocal[key]);}
+        )
+
+        let MeasuresSelect = document.getElementById('MeasuresSelect');
+
+        MeasuresMap.forEach(
+            function(value,key)
+            {
+                let option = document.createElement("OPTION");
+                option.text = key;
+                option.value = key;
+                MeasuresSelect.appendChild(option);
+            }
+        )
+
+        //let Units = MeasuresMap.get(Array.from(MeasuresMap.keys())[0]);
+        let Units ;
+
+        let e = document.getElementById("MeasuresSelect");
+        let value = e.options[e.selectedIndex].value;
+
+        Units = MeasuresMap.get(value);
+        let MesauringUnits = document.getElementById('MesauringUnits');
+        Units.PrimaryMeasuringUnits.forEach(
+        function(item){
+            let option = document.createElement("OPTION");
+            option.text = item;
+            option.value = item;
+            MesauringUnits.appendChild(option);
+        })
+
+        let SecondaryUnits = document.getElementById('SecondaryUnits');
+        Units.SecondaryMeasuringUnits.forEach(
+        function(item){
+            let option = document.createElement("OPTION");
+            option.text = item;
+            option.value = item;
+            SecondaryUnits.appendChild(option);
+        })
+
+    }
+    if(localStorage.getItem('settings') != null && localStorage.getItem('settings') != "{}")
+    {
+        let Settingslocal = JSON.parse(localStorage.getItem ('settings'));
+
+        Object.keys(Settingslocal).forEach(
+            function(key){SettingsMap.set (key , Settingslocal[key]);}
+        )
+
+        // console.log(SettingsMap);
+    }
+
+    var settings = document.getElementById("settings"); 
+    var password = document.getElementById("collapseExample");  
+    var settingsconfig = document.getElementById("collapseExample1");  
+    var checksettings 
+
+    // storepassword = "1"
+    // //   storepassword = "Cgmp@150"
+    // localStorage.setItem("password", storepassword)
+       
+    settings.href = "#collapseExample";   
+    console.log(settings.href);
+}
+
+ function addGauge()
+    {
+        var e = document.getElementById("GaugeSelector");
+        var value = e.options[e.selectedIndex].value;
+        
+        var canvas =  document.createElement('canvas');
+        var gauge;
+       
+            canvas.id = 'simple-gauge' + '-' + (document.querySelectorAll('[id^=simple-gauge]').length+1);
+
+        if(value == "simple gauge")
+        {
+            // var settingsData = JSON.parse(localStorage.getItem('settings'));
+        
+
+            let gaugeSettings = SettingsMap.get(canvas.id);
+            
+            if(gaugeSettings != undefined){
+                console.log(gaugeSettings.min)
+                let minVal = parseInt(gaugeSettings.min);
+                let maxVal = parseInt(gaugeSettings.max);
+
+                gauge = new RadialGauge({
+                renderTo: canvas,
+                width: 450,
+                height: 450,
+                highlights : [
+                    {"from":"", "to": "", "color": "rgba(0,0, 255, .6"},      
+                    {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+                    ]
+            });
+            gauge.options.minValue = minVal;
+            gauge.options.maxValue = maxVal;
+            gauge.options.majorTicks = calculateMajorTicks(minVal,maxVal,10);
+
+            if(gaugeSettings.lowAlarmChecked && gaugeSettings.highAlarmChecked){
+                            var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                           
+                            gauge.options.highlights[0].from = minVal
+                            gauge.options.highlights[0].to = lowalarm
+                            gauge.options.highlights[1].from = highalarm        
+                            gauge.options.highlights[1].to = maxVal
+                        }
+                        else if(gaugeSettings.highAlarmChecked){
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                            
+                                gauge.options.highlights[0].from = ""
+                                gauge.options.highlights[0].to =""
+                                gauge.options.highlights[1].from = highalarm        
+                                gauge.options.highlights[1].to = maxVal
+                            }
+                        else  if(gaugeSettings.lowAlarmChecked){
+                                var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                                gauge.options.highlights[0].from = minVal          
+                                gauge.options.highlights[0].to = lowalarm
+                                gauge.options.highlights[1].from = ""        
+                                gauge.options.highlights[1].to = max =""
+                            }
+                        else if(!lowAlarmChecked && !highAlarmChecked){
+                            gauge.options.highlights[1].from = ""       
+                            gauge.options.highlights[1].to = ""
+                            gauge.options.highlights[0].from = ""        
+                            gauge.options.highlights[0].to = max =""
+                        }
+
+                        setAlarm(gauge)
+                }
+                
+
+                else{
+
+                    gauge = new RadialGauge({
+                renderTo: canvas,
+                width: 450,
+                height: 450,
+                
+                highlights : [
+                    {"from": "", "to": "", "color": "rgba(0,0, 255, .6"},      
+                    {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+                    ]
+            } );
+                }
+            
+            
+           
+        }
+        else if(value == "linear gauge")
+        {
+            canvas.id = 'linear-gauge' + '-' + (document.querySelectorAll('[id^=linear-gauge]').length+1);
+
+            // if(localStorage.getItem('settings') != null)
+            // {
+            // let e = document.getElementById("GaugesSelector");
+            //     if(e != null)
+            //     {
+            //         // when page loads there is no gauge so  no need to implement
+            //     }
+            // }
+
+
+            let gaugeSettings = SettingsMap.get(canvas.id);
+            
+            if(gaugeSettings != undefined){
+                console.log(gaugeSettings.min)
+                let minVal = parseInt(gaugeSettings.min);
+                let maxVal = parseInt(gaugeSettings.max);
+
+                gauge= new LinearGauge({ 
+                renderTo: canvas, 
+                exactTicks : true,
+                highlights: 0,
+                width: 160,
+                height: 450,
+                highlights : [
+                    {"from": "", "to": "", "color": "rgba(0,0, 255, .6"},      
+                    {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+                    ]
+            });
+            gauge.options.minValue = minVal;
+            gauge.options.maxValue = maxVal;
+            gauge.options.majorTicks = calculateMajorTicks(minVal,maxVal,10);
+
+            if(gaugeSettings.lowAlarmChecked && gaugeSettings.highAlarmChecked){
+                            var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                           
+                            gauge.options.highlights[0].from = minVal
+                            gauge.options.highlights[0].to = lowalarm
+                            gauge.options.highlights[1].from = highalarm        
+                            gauge.options.highlights[1].to = maxVal
+                        }
+                        else if(gaugeSettings.highAlarmChecked){
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                            
+                                gauge.options.highlights[0].from = ""
+                                gauge.options.highlights[0].to =""
+                                gauge.options.highlights[1].from = highalarm        
+                                gauge.options.highlights[1].to = maxVal
+                            }
+                        else  if(gaugeSettings.lowAlarmChecked){
+                                var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                                gauge.options.highlights[0].from = minVal          
+                                gauge.options.highlights[0].to = lowalarm
+                                gauge.options.highlights[1].from = ""        
+                                gauge.options.highlights[1].to = max =""
+                            }
+                        else if(!lowAlarmChecked && !highAlarmChecked){
+                            gauge.options.highlights[1].from = ""       
+                            gauge.options.highlights[1].to = ""
+                            gauge.options.highlights[0].from = ""        
+                            gauge.options.highlights[0].to = max =""
+                        }
+
+                        setAlarm(gauge)
+                }
+            
+
+            else{
+            gauge= new LinearGauge({ 
+                renderTo: canvas, 
+                exactTicks : true,
+                highlights: 0,
+                width: 160,
+                height: 450
+            });
+        }
+        }
+        else if(value == "temperature")
+        {
+            canvas.id = 'temperature' + '-' + (document.querySelectorAll('[id^=temperature]').length+1);
+
+            let gaugeSettings = SettingsMap.get(canvas.id);
+            
+            if(gaugeSettings != undefined){
+                console.log(gaugeSettings.min)
+                let minVal = parseInt(gaugeSettings.min);
+                let maxVal = parseInt(gaugeSettings.max);
+
+                gauge= new LinearGauge({ 
+                renderTo: canvas, 
+                highlights: [
+                        {"from": 10, "to":20, "color": "blue"},
+                        {"from": 20, "to": 30, "color": "red"}],
+                width: 160,
+                height: 450,
+                borderRadius : 20,
+                barBeginCircle : false,
+                title : "Temperature",
+                units : "°C",
+                minorTicks : 10,
+                majorTicks : [10,20,30],
+                value : 99,
+                maxValue : 30,
+                minValue : 10,
+                tickSide : "right",
+                numberSide : "right",
+                needleSide : "right",
+                animationRule : "bounce",
+                animationDuration : 750,
+                barStrokeWidth : 5,
+                valueBoxBorderRadius : 0,
+                valueTextShadow : false
+            });
+            gauge.options.minValue = minVal;
+            gauge.options.maxValue = maxVal;
+            gauge.options.majorTicks = calculateMajorTicks(minVal,maxVal,10);
+
+            if(gaugeSettings.lowAlarmChecked && gaugeSettings.highAlarmChecked){
+                            var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                           
+                            gauge.options.highlights[0].from = minVal
+                            gauge.options.highlights[0].to = lowalarm
+                            gauge.options.highlights[1].from = highalarm        
+                            gauge.options.highlights[1].to = maxVal
+                        }
+                        else if(gaugeSettings.highAlarmChecked){
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                            
+                                gauge.options.highlights[0].from = ""
+                                gauge.options.highlights[0].to =""
+                                gauge.options.highlights[1].from = highalarm        
+                                gauge.options.highlights[1].to = maxVal
+                            }
+                        else  if(gaugeSettings.lowAlarmChecked){
+                                var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                                gauge.options.highlights[0].from = minVal          
+                                gauge.options.highlights[0].to = lowalarm
+                                gauge.options.highlights[1].from = ""        
+                                gauge.options.highlights[1].to = max =""
+                            }
+                        else if(!lowAlarmChecked && !highAlarmChecked){
+                            gauge.options.highlights[1].from = ""       
+                            gauge.options.highlights[1].to = ""
+                            gauge.options.highlights[0].from = ""        
+                            gauge.options.highlights[0].to = max =""
+                        }
+
+                        setAlarm(gauge)
+                }
+            
+            else{
+            gauge= new LinearGauge({ 
+                renderTo: canvas, 
+                highlights: [
+                        {"from": 10, "to":20, "color": "blue"},
+                        {"from": 20, "to": 30, "color": "red"}],
+                width: 160,
+                height: 450,
+                borderRadius : 20,
+                barBeginCircle : false,
+                title : "Temperature",
+                units : "°C",
+                minorTicks : 10,
+                majorTicks : [10,20,30],
+                value : 99,
+                maxValue : 30,
+                minValue : 10,
+                tickSide : "right",
+                numberSide : "right",
+                needleSide : "right",
+                animationRule : "bounce",
+                animationDuration : 750,
+                barStrokeWidth : 5,
+                valueBoxBorderRadius : 0,
+                valueTextShadow : false
+            });
+        }
+
+        }
+        else if(value == "temperature advance")
+        {
+            canvas.id = 'temperatureadvance' + '-' + (document.querySelectorAll('[id^=temperatureadvance]').length+1);
+
+            let gaugeSettings = SettingsMap.get(canvas.id);
+            
+            if(gaugeSettings != undefined){
+                console.log(gaugeSettings.min)
+                let minVal = parseInt(gaugeSettings.min);
+                let maxVal = parseInt(gaugeSettings.max);
+
+                gauge= new LinearGauge({
+                renderTo: canvas,
+                width:160,
+                height:450,
+                borderRadius:20,
+                borders:0,
+                barBeginCircle:false,
+                title:"Temperature",
+                units:"°C",
+                minorTicks:10,
+                value:99,
+                minValue:-30,
+                maxValue:30,
+                majorTicks:-["30", "-20", "-10", "0", "10", "20", "30"],
+                highlights:[
+                    {"from":-30, "to":0, "color": "blue"},
+                    {"from": 0, "to": 30, "color": "red"}],
+                tickSide:"right",
+                numberSide:"right",
+                needleSide:"right",
+                animationRule:"bounce",
+                animationDuration:750 ,
+                barStrokeWidth:5 ,
+                valueBoxBorderRadius:0,
+                valueTextShadow:false
+             })
+            gauge.options.minValue = minVal;
+            gauge.options.maxValue = maxVal;
+            gauge.options.majorTicks = calculateMajorTicks(minVal,maxVal,10);
+
+            if(gaugeSettings.lowAlarmChecked && gaugeSettings.highAlarmChecked){
+                            var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                           
+                            gauge.options.highlights[0].from = minVal
+                            gauge.options.highlights[0].to = lowalarm
+                            gauge.options.highlights[1].from = highalarm        
+                            gauge.options.highlights[1].to = maxVal
+                        }
+                        else if(gaugeSettings.highAlarmChecked){
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                            
+                                gauge.options.highlights[0].from = ""
+                                gauge.options.highlights[0].to =""
+                                gauge.options.highlights[1].from = highalarm        
+                                gauge.options.highlights[1].to = maxVal
+                            }
+                        else  if(gaugeSettings.lowAlarmChecked){
+                                var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                                gauge.options.highlights[0].from = minVal          
+                                gauge.options.highlights[0].to = lowalarm
+                                gauge.options.highlights[1].from = ""        
+                                gauge.options.highlights[1].to = max =""
+                            }
+                        else if(!lowAlarmChecked && !highAlarmChecked){
+                            gauge.options.highlights[1].from = ""       
+                            gauge.options.highlights[1].to = ""
+                            gauge.options.highlights[0].from = ""        
+                            gauge.options.highlights[0].to = max =""
+                        }
+
+                        setAlarm(gauge)
+                }
+            else{
+            gauge= new LinearGauge({
+                renderTo: canvas,
+                width:160,
+                height:450,
+                borderRadius:20,
+                borders:0,
+                barBeginCircle:false,
+                title:"Temperature",
+                units:"°C",
+                minorTicks:10,
+                value:99,
+                minValue:-30,
+                maxValue:30,
+                majorTicks:-["30", "-20", "-10", "0", "10", "20", "30"],
+                highlights:[
+                    {"from":-30, "to":0, "color": "blue"},
+                    {"from": 0, "to": 30, "color": "red"}],
+                tickSide:"right",
+                numberSide:"right",
+                needleSide:"right",
+                animationRule:"bounce",
+                animationDuration:750 ,
+                barStrokeWidth:5 ,
+                valueBoxBorderRadius:0,
+                valueTextShadow:false
+             })
+            }
+        }
+        else if(value == "temperature1")
+        {
+            canvas.id = 'temperature1' + '-' + (document.querySelectorAll('[id^=temperature1]').length+1);
+            
+            let gaugeSettings = SettingsMap.get(canvas.id);
+            
+            if(gaugeSettings != undefined){
+                console.log(gaugeSettings.min)
+                let minVal = parseInt(gaugeSettings.min);
+                let maxVal = parseInt(gaugeSettings.max);
+
+                gauge= new LinearGauge({
+                renderTo: canvas,
+                width:160,
+                height:450, 
+                borderRadius:20,
+                borders:true ,
+                barStrokeWidth:20,
+                minorTicks:10,
+                highlights : [
+                    {"from": "", "to": "", "color": "rgba(0,0, 255, .6"},      
+                    {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+                    ],
+                majorTicks:["0","10","20","30","40","50","60","70","80","90","100"],
+                colorNumbers:"red,green,blue,transparent,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc",
+                colorMajorTicks:"red,green,blue,transparent,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc",
+                colorBarStroke:"#444",
+                value:22.3, 
+                units:"°C",
+                colorValueBoxShadow:false, 
+                tickSide:"left", 
+                numberSide:"left",
+                needleSide:"left",
+                animateOnInit:true, 
+                colorPlate:"",
+                fontValueSize:45
+            })
+            gauge.options.minValue = minVal;
+            gauge.options.maxValue = maxVal;
+            gauge.options.majorTicks = calculateMajorTicks(minVal,maxVal,10);
+
+            if(gaugeSettings.lowAlarmChecked && gaugeSettings.highAlarmChecked){
+                            var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                           
+                            gauge.options.highlights[0].from = minVal
+                            gauge.options.highlights[0].to = lowalarm
+                            gauge.options.highlights[1].from = highalarm        
+                            gauge.options.highlights[1].to = maxVal
+                        }
+                        else if(gaugeSettings.highAlarmChecked){
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                            
+                                gauge.options.highlights[0].from = ""
+                                gauge.options.highlights[0].to =""
+                                gauge.options.highlights[1].from = highalarm        
+                                gauge.options.highlights[1].to = maxVal
+                            }
+                        else  if(gaugeSettings.lowAlarmChecked){
+                                var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                                gauge.options.highlights[0].from = minVal          
+                                gauge.options.highlights[0].to = lowalarm
+                                gauge.options.highlights[1].from = ""        
+                                gauge.options.highlights[1].to = max =""
+                            }
+                        else if(!lowAlarmChecked && !highAlarmChecked){
+                            gauge.options.highlights[1].from = ""       
+                            gauge.options.highlights[1].to = ""
+                            gauge.options.highlights[0].from = ""        
+                            gauge.options.highlights[0].to = max =""
+                        }
+
+                        setAlarm(gauge)
+                }
+            else{
+            gauge= new LinearGauge({
+                renderTo: canvas,
+                width:160,
+                height:450, 
+                borderRadius:20,
+                borders:true ,
+                barStrokeWidth:20,
+                minorTicks:10,
+                majorTicks:["0","10","20","30","40","50","60","70","80","90","100"],
+                colorNumbers:"red,green,blue,transparent,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc",
+                colorMajorTicks:"red,green,blue,transparent,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc",
+                colorBarStroke:"#444",
+                value:22.3, 
+                units:"°C",
+                colorValueBoxShadow:false, 
+                tickSide:"left", 
+                numberSide:"left",
+                needleSide:"left",
+                animateOnInit:true, 
+                colorPlate:"",
+                fontValueSize:45
+            })
+        }
+        }
+        else if(value == "temperature2")
+        {
+            canvas.id = 'temperature2' + '-' + (document.querySelectorAll('[id^=temperature2]').length+1);
+            
+            let gaugeSettings = SettingsMap.get(canvas.id);
+            
+            if(gaugeSettings != undefined){
+                console.log(gaugeSettings.min)
+                let minVal = parseInt(gaugeSettings.min);
+                let maxVal = parseInt(gaugeSettings.max);
+
+                gauge= new LinearGauge({
+                renderTo: canvas,
+                width:160, 
+                height:450, 
+                borderRadius:20,                
+                borders:0, 
+                barStrokeWidth:0,
+                minorTicks:20, 
+                highlights : [
+                    {"from": "", "to": "", "color": "rgba(0,0, 255, .6"},      
+                    {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+                    ],
+                animationRule:"cycle",
+                animationDuration:1000 ,
+                title:"Temperature",
+                units:"°C",
+                colorValueBoxShadow:false,
+                animatedValue:true
+            })
+        
+            gauge.options.minValue = minVal;
+            gauge.options.maxValue = maxVal;
+            gauge.options.majorTicks = calculateMajorTicks(minVal,maxVal,10);
+
+            if(gaugeSettings.lowAlarmChecked && gaugeSettings.highAlarmChecked){
+                            var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                           
+                            gauge.options.highlights[0].from = minVal
+                            gauge.options.highlights[0].to = lowalarm
+                            gauge.options.highlights[1].from = highalarm        
+                            gauge.options.highlights[1].to = maxVal
+                        }
+                        else if(gaugeSettings.highAlarmChecked){
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                            
+                                gauge.options.highlights[0].from = ""
+                                gauge.options.highlights[0].to =""
+                                gauge.options.highlights[1].from = highalarm        
+                                gauge.options.highlights[1].to = maxVal
+                            }
+                        else  if(gaugeSettings.lowAlarmChecked){
+                                var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                                gauge.options.highlights[0].from = minVal          
+                                gauge.options.highlights[0].to = lowalarm
+                                gauge.options.highlights[1].from = ""        
+                                gauge.options.highlights[1].to = max =""
+                            }
+                        else if(!lowAlarmChecked && !highAlarmChecked){
+                            gauge.options.highlights[1].from = ""       
+                            gauge.options.highlights[1].to = ""
+                            gauge.options.highlights[0].from = ""        
+                            gauge.options.highlights[0].to = max =""
+                        }
+
+                        setAlarm(gauge)
+                }
+
+            else{
+            gauge= new LinearGauge({
+                renderTo: canvas,
+                width:160, 
+                height:450, 
+                borderRadius:20,                
+                borders:0, 
+                barStrokeWidth:0,
+                minorTicks:20, 
+                animationRule:"cycle",
+                animationDuration:1000 ,
+                title:"Temperature",
+                units:"°C",
+                colorValueBoxShadow:false,
+                animatedValue:true
+            })
+        }
+        }
+        else if(value == "temperature3")
+        {
+            canvas.id = 'temperature3' + '-' + (document.querySelectorAll('[id^=temperature3]').length+1);
+            
+            let gaugeSettings = SettingsMap.get(canvas.id);
+            
+            if(gaugeSettings != undefined){
+                console.log(gaugeSettings.min)
+                let minVal = parseInt(gaugeSettings.min);
+                let maxVal = parseInt(gaugeSettings.max);
+
+                gauge= new LinearGauge({
+                renderTo: canvas,
+                
+                width:160 ,
+                height:450 ,
+                borderRadius:0,
+                borders:0, 
+                barBeginCircle:25,
+                minorTicks:10,
+                value:36.6,
+                minValue:35 ,
+                maxValue:42 ,
+                title:"°C",
+                highlights : [
+                    {"from": "", "to": "", "color": "rgba(0,0, 255, .6"},      
+                    {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+                    ],
+                majorTicks:["35","36","37","38","39","40","41","42"] ,
+                ticksWidth:18, 
+                tickswidthMinor:7.5,
+                barWidth:5,
+                colorValueBoxShadow:false,
+                valueBoxStroke:0,
+                colorValueBoxBackground:false,
+                valueInt:2,
+                valueDec:1
+            })
+        
+            gauge.options.minValue = minVal;
+            gauge.options.maxValue = maxVal;
+            gauge.options.majorTicks = calculateMajorTicks(minVal,maxVal,10);
+
+            if(gaugeSettings.lowAlarmChecked && gaugeSettings.highAlarmChecked){
+                            var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                           
+                            gauge.options.highlights[0].from = minVal
+                            gauge.options.highlights[0].to = lowalarm
+                            gauge.options.highlights[1].from = highalarm        
+                            gauge.options.highlights[1].to = maxVal
+                        }
+                        else if(gaugeSettings.highAlarmChecked){
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                            
+                                gauge.options.highlights[0].from = ""
+                                gauge.options.highlights[0].to =""
+                                gauge.options.highlights[1].from = highalarm        
+                                gauge.options.highlights[1].to = maxVal
+                            }
+                        else  if(gaugeSettings.lowAlarmChecked){
+                                var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                                gauge.options.highlights[0].from = minVal          
+                                gauge.options.highlights[0].to = lowalarm
+                                gauge.options.highlights[1].from = ""        
+                                gauge.options.highlights[1].to = max =""
+                            }
+                        else if(!lowAlarmChecked && !highAlarmChecked){
+                            gauge.options.highlights[1].from = ""       
+                            gauge.options.highlights[1].to = ""
+                            gauge.options.highlights[0].from = ""        
+                            gauge.options.highlights[0].to = max =""
+                        }
+
+                        setAlarm(gauge)
+                }
+
+            else{
+            gauge= new LinearGauge({
+                renderTo: canvas,
+                
+                width:160 ,
+                height:450 ,
+                borderRadius:0,
+                borders:0, 
+                barBeginCircle:25,
+                minorTicks:10,
+                value:36.6,
+                minValue:35 ,
+                maxValue:42 ,
+                title:"°C",
+                majorTicks:["35","36","37","38","39","40","41","42"] ,
+                ticksWidth:18, 
+                tickswidthMinor:7.5,
+                barWidth:5,
+                highlights:false,
+                colorValueBoxShadow:false,
+                valueBoxStroke:0,
+                colorValueBoxBackground:false,
+                valueInt:2,
+                valueDec:1
+            })
+        }
+        }
+        else if(value == "temperature4")
+        {
+            canvas.id = 'temperature4' + '-' + (document.querySelectorAll('[id^=temperature4]').length+1);
+            
+            let gaugeSettings = SettingsMap.get(canvas.id);
+            
+            if(gaugeSettings != undefined){
+                console.log(gaugeSettings.min)
+                let minVal = parseInt(gaugeSettings.min);
+                let maxVal = parseInt(gaugeSettings.max);
+
+                gauge= new LinearGauge({
+                renderTo: canvas,
+                
+                width:160,
+                height:450, 
+                borderRadius:20,
+                borders:0,
+                barBeginCircle:false,
+                title:"Temperature",
+                units:"°C",
+                units:"#f00", 
+                highlights : [
+                    {"from": "", "to": "", "color": "rgba(0,0, 255, .6"},      
+                    {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+                    ],
+                minorTicks:10 ,
+                value:99,
+                majorTicks:["0","10","20","30","40","50","60","70","80","90","100"], 
+                tickSide:"right",
+                numberSide:"right",
+                needleSide:"right",
+                animationRule:"bounce",
+                animationDuration:750, 
+                barStrokeWidth:5, 
+                valueBoxBorderRadius:0,
+                valueTextShadow:false
+            })
+        
+            gauge.options.minValue = minVal;
+            gauge.options.maxValue = maxVal;
+            gauge.options.majorTicks = calculateMajorTicks(minVal,maxVal,10);
+
+            if(gaugeSettings.lowAlarmChecked && gaugeSettings.highAlarmChecked){
+                            var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                           
+                            gauge.options.highlights[0].from = minVal
+                            gauge.options.highlights[0].to = lowalarm
+                            gauge.options.highlights[1].from = highalarm        
+                            gauge.options.highlights[1].to = maxVal
+                        }
+                        else if(gaugeSettings.highAlarmChecked){
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                            
+                                gauge.options.highlights[0].from = ""
+                                gauge.options.highlights[0].to =""
+                                gauge.options.highlights[1].from = highalarm        
+                                gauge.options.highlights[1].to = maxVal
+                            }
+                        else  if(gaugeSettings.lowAlarmChecked){
+                                var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                                gauge.options.highlights[0].from = minVal          
+                                gauge.options.highlights[0].to = lowalarm
+                                gauge.options.highlights[1].from = ""        
+                                gauge.options.highlights[1].to = max =""
+                            }
+                        else if(!lowAlarmChecked && !highAlarmChecked){
+                            gauge.options.highlights[1].from = ""       
+                            gauge.options.highlights[1].to = ""
+                            gauge.options.highlights[0].from = ""        
+                            gauge.options.highlights[0].to = max =""
+                        }
+
+                        setAlarm(gauge)
+                }
+
+            else{
+            gauge= new LinearGauge({
+                renderTo: canvas,
+                
+                width:160,
+                height:450, 
+                borderRadius:20,
+                borders:0,
+                barBeginCircle:false,
+                title:"Temperature",
+                units:"°C",
+                units:"#f00", 
+                minorTicks:10 ,
+                value:99,
+                majorTicks:["0","10","20","30","40","50","60","70","80","90","100"], 
+                tickSide:"right",
+                numberSide:"right",
+                needleSide:"right",
+                animationRule:"bounce",
+                animationDuration:750, 
+                barStrokeWidth:5, 
+                valueBoxBorderRadius:0,
+                valueTextShadow:false
+            })
+        }
+        }
+        
+        else if(value == "compass")
+        {
+            canvas.id = 'compass' + '-' + (document.querySelectorAll('[id^=compass]').length+1);
+            gauge= new RadialGauge({
+        renderTo: canvas,
+        width:500,
+        animationDuration:500,
+        height:500,
+        minValue:0,
+        maxValue:360,
+        majorTicks:["N","NE","E","SE","S","SW","W","NW","N"],
+        minorTicks:22,
+        ticksAngle:360,
+        startAngle:180,
+        strokeTicks:false,
+        highlights:false,
+        colorPlate:"#33a",
+        colorMajorTicks:"#f5f5f5",
+        colorMinorTicks:"#ddd",
+        colorNumbers:"#ccc",
+        colorNeedle:"rgba(240, 128, 128, 1)",
+        colorNeedleEnd:"rgba(255, 160, 122, .9)",
+        valueBox:true,
+        animatedValue:true,
+        valueTextShadow:false,
+        colorCircleInner:"#fff",
+        colorNeedleCircleOuter:"#ccc",
+        needleCircleSize:15,
+        needleCircleOuter:false,
+        animationRule:"linear",
+        needleType:"line",
+        needleStart:75,
+        needleEnd:99,
+        needleWidth:3,
+        borders:true,
+        borderInnerWidth:0,
+        borderMiddleWidth:0,
+        borderOuterWidth:10,
+        colorBorderOuter:"#ccc",
+        colorBorderOuterEnd:"#ccc",
+        colorNeedleShadowDown:"#222",
+        borderShadowWidth:0,
+        animationTarget:"needle",
+        units:"ᵍ",
+        title:"DIRECTION",
+        fontTitleSize:19,
+        colorTitle:"#f5f5f5",
+        animationDuration:1500,
+        value:5,
+        animateOnInit:true,
+        useMinPath:true
+            })
+        }
+        else if(value == "custom gauge2")
+        {
+            canvas.id = 'customgauge2' + '-' + (document.querySelectorAll('[id^=customgauge2]').length+1);
+            gauge = new RadialGauge({
+        renderTo: canvas,
+        width: 300,
+        height: 300,
+        units: "",
+        //title: "",
+
+        startAngle: 90,
+        ticksAngle: 180,
+        colorPlate: "#ffffff",
+        //colorPlateEnd: "#ffffff",
+        colorUnits: "#3CA7DB",
+        colorNumbers: "#534638",
+        colorNeedle: "#8E7860",
+        colorNeedleEnd: "#8E7860",
+        colorNeedleCircleOuter: "#8E7860",
+        colorNeedleCircleOuterEnd: "#8E7860",
+
+        colorNeedleShadowUp: "#8E7860",
+        colorNeedleShadowDown: "#8E7860",
+
+        colorMajorTicks: ["#EBEBEB", "#EBEBEB", "#EBEBEB", "#EBEBEB", "#EBEBEB", "#EBEBEB"],
+        colorMinorTicks: "#EBEBEB",
+
+        minValue: 0,
+        maxValue: 100,
+        majorTicks: ["","20","40","60","80",""],
+        minorTicks: "2",
+        strokeTicks: true,
+        highlights: [
+            {
+                "from": -0.25,
+                "to": 39.99,
+                "color": "#FF9488"
+            },
+            {
+                "from": 39.99,
+                "to": 59.99,
+                "color": "#8FB9BD"
+            },
+            {
+                "from": 59.99,
+                "to": 100.25,
+                "color": "#B1B9CB"
+            }
+        ],
+        //
+        highlightsWidth: 25,
+        numbersMargin: 12,
+        //
+        //barWidth: 20,
+        //barStrokeWidth: 0,
+        //barProgress: 1,
+        //barShadow: 0,
+        //
+        animation: true,
+        //animationDuration: 500,
+        animationRule: "linear",
+        animatedValue: true,
+        //animateOnInit: true,
+
+        borders: false,
+        valueBox: true,
+
+        needleType: "arrow",
+        needleEnd: 65,
+        needleWidth: 4,
+        needleCircleSize: 10,
+        needleCircleInner: false,
+        needleCircleOuter: true,
+        needleShadow: false,
+
+        borderShadowWidth: 0
+
+    })
+        }
+
+        else if(value == "gauge360")
+        {
+            canvas.id = 'gauge360' + '-' + (document.querySelectorAll('[id^=gauge360]').length+1);
+            
+            let gaugeSettings = SettingsMap.get(canvas.id);
+            
+            if(gaugeSettings != undefined){
+                console.log(gaugeSettings.min)
+                let minVal = parseInt(gaugeSettings.min);
+                let maxVal = parseInt(gaugeSettings.max);
+
+                gauge= new RadialGauge({ 
+                renderTo: canvas, 
+                exactTicks : true,
+                highlights: 0,
+                width: 500,
+                height: 500,
+                highlights : [
+                    {"from": "", "to": "", "color": "rgba(0,0, 255, .6"},      
+                    {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+                    ],
+             
+                AnimationDuration: 500,
+                MinValue: 0,
+                MaxValue: 100,
+                MajorTicks:[0,10,20,30,40,50,60,70,80,90,100],
+                minorTicks:5,
+                exactTicks:true,
+             
+                startAngle:0,
+                ticksAngle:360,
+                valueBox: true    
+            });
+
+            gauge.options.minValue = minVal;
+            gauge.options.maxValue = maxVal;
+            gauge.options.majorTicks = calculateMajorTicks(minVal,maxVal,10);
+
+            if(gaugeSettings.lowAlarmChecked && gaugeSettings.highAlarmChecked){
+                            var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                           
+                            gauge.options.highlights[0].from = minVal
+                            gauge.options.highlights[0].to = lowalarm
+                            gauge.options.highlights[1].from = highalarm        
+                            gauge.options.highlights[1].to = maxVal
+                        }
+                        else if(gaugeSettings.highAlarmChecked){
+                            var highalarm = calculateAlarm(minVal,maxVal,gaugeSettings.highAlarmPercent);  
+                            
+                                gauge.options.highlights[0].from = ""
+                                gauge.options.highlights[0].to =""
+                                gauge.options.highlights[1].from = highalarm        
+                                gauge.options.highlights[1].to = maxVal
+                            }
+                        else  if(gaugeSettings.lowAlarmChecked){
+                                var lowalarm = calculateAlarm(minVal,maxVal,gaugeSettings.lowAlarmPercent);  
+                                gauge.options.highlights[0].from = minVal          
+                                gauge.options.highlights[0].to = lowalarm
+                                gauge.options.highlights[1].from = ""        
+                                gauge.options.highlights[1].to = max =""
+                            }
+                        else if(!lowAlarmChecked && !highAlarmChecked){
+                            gauge.options.highlights[1].from = ""       
+                            gauge.options.highlights[1].to = ""
+                            gauge.options.highlights[0].from = ""        
+                            gauge.options.highlights[0].to = max =""
+                        }
+
+                        setAlarm(gauge)
+        }
+
+        else{
+            gauge= new RadialGauge({ 
+                renderTo: canvas, 
+                exactTicks : true,
+                highlights: 0,
+                width: 500,
+                height: 500,
+                highlights : [
+                    {"from": "", "to": "", "color": "rgba(0,0, 255, .6"},      
+                    {"from": "", "to": "", "color": "rgba(255, 0, 0, .7)"}
+                    ],
+             
+                AnimationDuration: 500,
+                MinValue: 0,
+                MaxValue: 100,
+                MajorTicks:[0,10,20,30,40,50,60,70,80,90,100],
+                minorTicks:5,
+                exactTicks: true,
+             
+                startAngle:0,
+                ticksAngle:360,
+                valueBox: false    
+            });
+        }
+
+    }
+       
+
+        let div= document.createElement('div');
+        div.classList.add("col-lg-4");
+        div.classList.add("text-center");
+        div.style.margin = "20px auto";
+        div.appendChild(gauge.options.renderTo);
+
+        let div2 = document.createElement('div');
+        let span =    document.createElement('span');
+        span.textContent = "Enter value";
+        span.style.margin = "30px";
+        div2.appendChild(span);
+
+        let input= document.createElement('input');
+        input.min=0;
+        input.max=100000;
+        input.type = "number";
+        div2.appendChild(input);
+
+        div.appendChild(div2);
+
+        
+
+        document.getElementById('gaugesRow').appendChild(div); //modify
+        gauge.options.animationDuration = 500;
+        gauge.draw();
+
+        document.getElementById(canvas.id).nextElementSibling.children[1].oninput = 
+                        function(){
+                            gauge.value = this.value;
+                            gauge.animation.update;
+                        };
+        
+        if(gauge instanceof LinearGauge ){
+            let btn = document.createElement('button');
+            btn.innerHTML = "Change Orientation";
+            btn.classList.add("btn");
+            btn.classList.add("btn-primary");
+            btn.classList.add("m-3");
+            btn.onclick = function (){
+                    if(gauge.options.width == 160){
+                        gauge.options.width = 450;
+                        gauge.options.height = 160;
+                    }
+                    else{
+                        gauge.options.width = 160;
+                        gauge.options.height = 450;
+                    }
+                    gauge.update();  
+                    
+                };
+            div.appendChild(btn);
+        }
+        let select =document.getElementById('GaugesSelector');
+        let op = document.createElement('option');
+        op.text= canvas.id;
+        op.value = canvas.id;
+
+        select.appendChild(op);
+
+    // console.log(value);
+    }
+
+ 
+
+function  GaugesSelectorChange()
+    {
+        console.log("in gauge select"); 
+        
+        //change just input value no need to store in local 
+    }
+    
+
+
+// function saveOnClick()
+// {
+
+// var min=JSON.parse(document.getElementById("InputLowSensor1").value)
+//                         *JSON.parse(document.getElementById("InputLowSensor2").value);
+// var minimum = document.getElementById("InputLowSensor1").value
+// var minMultiplier=document.getElementById("InputLowSensor2").value
+// var max=JSON.parse(document.getElementById("InputHighSensor1").value)
+//                         *JSON.parse(document.getElementById("InputHighSensor2").value);
+// var maximun = document.getElementById("InputHighSensor1").value
+// var maxMultiplier=document.getElementById("InputHighSensor2").value
+
+// // console.log(min);
+// // console.log(max);
+
+// var lowAlarmPercent = document.getElementById("InputAlarmLow").value;
+// var highAlarmPercent = document.getElementById("InputAlarmHigh").value;
+
+// var lowAlarmChecked = document.getElementById("AlarmCheckLow");
+// var highAlarmChecked = document.getElementById("AlarmCheckHigh");           
+// lowAlarmChecked =   lowAlarmChecked.checked;
+// highAlarmChecked = highAlarmChecked.checked;
+// var primary = document.getElementById("MesauringUnits");
+// var unit = primary.options[primary.selectedIndex].value;
+
+// var secondary = document.getElementById("SecondaryUnits");
+// var unit2 = secondary.options[secondary.selectedIndex].value;
+
+// var unit2=document.getElementById("SecondaryUnits").innerHTML;
+// // var e = document.getElementById("GaugeColor");
+// // var gaugeColor = e.options[e.selectedIndex].value;
+// var gauge;
+// var majorTicks=[];
+
+// majorTicks= calculateMajorTicks(min,max,10);
+
+
+    
+
+//     if(min > max){
+//         console.log("Please enter Sensor value low < high")
+//         return window.alert("Please enter Sensor value low < high")
+//     }
+//     if(lowAlarmPercent > highAlarmPercent ){
+//         return window.alert("Please enter Alarm value low < high")
+//     }
+    
+
+//     gauge=getCurrentSelected();
+
+//     // var settings;
+//     // settings = JSON.parse(localStorage.getItem('settings'));
+
+//     // if(settings == null)
+//     //     settings = {};
+    
+    
+//     // var gaugeId = gauge.options.renderTo.id;
+//     // settings[gaugeId] = {}
+    
+//     // settings[gaugeId].min = minimum;
+//     // settings[gaugeId].minMultiplier = minMultiplier;
+//     // settings[gaugeId].max = maximun;
+//     // settings[gaugeId].maxMultiplier = maxMultiplier;
+//     // settings[gaugeId].lowAlarmPercent = lowAlarmPercent;
+//     // settings[gaugeId].highAlarmPercent = highAlarmPercent;
+//     // settings[gaugeId].lowAlarmChecked = lowAlarmChecked;
+//     // settings[gaugeId].highAlarmChecked = highAlarmChecked;
+    
+//     // localStorage.setItem('settings',JSON.stringify(settings));
+
+//     gauge.options.minValue=min;
+//     gauge.options.maxValue=max;
+//     gauge.options.units= unit
+//     //gauge.options.colorPlate= gaugeColor
+
+
+//     if(lowAlarmChecked && highAlarmChecked){
+//         var lowalarm = calculateAlarm(min,max,lowAlarmPercent);  
+//         var highalarm = calculateAlarm(min,max,highAlarmPercent);  
+//         highAlarmflag=0
+//         lowAlarmflag=1;
+//         highAlarmflag = 1
+//         gauge.options.highlights[0].from = min
+//         gauge.options.highlights[0].to = lowalarm
+//         gauge.options.highlights[1].from = highalarm        
+//         gauge.options.highlights[1].to = max
+//     }
+    
+
+//     else if(highAlarmChecked){
+//         var highalarm = calculateAlarm(min,max,highAlarmPercent);  
+//         lowAlarmflag=0;
+//         highAlarmflag = 1
+        
+//             lowAlarmflag = 1;
+//             gauge.options.highlights[0].from = ""
+//             gauge.options.highlights[0].to =""
+//             gauge.options.highlights[1].from = highalarm        
+//             gauge.options.highlights[1].to = max
+//         }
+//       else  if(lowAlarmChecked){
+//             var lowalarm = calculateAlarm(min,max,lowAlarmPercent);  
+//             gauge.options.highlights[0].from = min          
+//             gauge.options.highlights[0].to = lowalarm
+//             gauge.options.highlights[1].from = ""        
+//             gauge.options.highlights[1].to = max =""
+//         }
+        
+    
+//     else if(!lowAlarmChecked && !highAlarmChecked){
+//         gauge.options.highlights[1].from = ""       
+//         gauge.options.highlights[1].to = ""
+//         gauge.options.highlights[0].from = ""        
+//         gauge.options.highlights[0].to = max =""
+//     }
+
+//     gauge.options.majorTicks=majorTicks;
+
+//     gauge.update();
+//     setAlarm(gauge);                           
+
+// }
+
+
+
+var input = document.querySelector('input[type="file"]')
+input.addEventListener('change', function (e) {
+console.log(input.files)
+var reader = new FileReader()
+reader.onload = function () {
+    var lines = reader.result.split('\n').map(function (line){
+        return line.split(',');
+    })
+    console.log(lines);
+    addFileData(lines);   
+}
+
+reader.readAsText(input.files[0])
+}, false)
+
+
+var newlinedata;
+function addFileData(lines) {
+    newlinedata = lines;
+
+}
+
+function savePassword(){
+    
+    var password_input = document.getElementById("password").value
+    var password_retrieved = localStorage.getItem("password")
+
+    if(password_retrieved == password_input)
+  {
+      
+      document.getElementById("collapseExample").classList.remove("show");
+      document.getElementById("collapseExample1").classList.add("show") ;
+      settings.href = "#collapseExample1";  
+  }
+  else{
+      settings.href = "#collapseExample";  
+      document.getElementById("wrongpassword").innerHTML = "Wrong Password"
+
+  }
+      
+
+}
+
+
+function updateGauge(){
+    var e = document.getElementById("MaxTime");
+
+  var maxTime = e.options[e.selectedIndex].value;
+  console.log(maxTime);
+  maxTime = maxTime * 1000
+  console.log(maxTime)
+    function addOneChar(i) {
+        var j = 0
+        var k = 0
+
+        while (j <= 20)
+        {
+            newgauge = document.gauges[k]
+            if(j %2 == 0) {
+    
+        newgauge.options.value = newlinedata[i][j+1]
+        newgauge.update();
+        k++;
+        }   
+             j++;
+             
+        }
+
+    
+        if (i+1<newlinedata.length-1) {
+        setTimeout(function() { addOneChar(i+1); }, maxTime);
+    } 
+}
+addOneChar(0)
+ 
+
+}
+
+function removeColor(){
+    let colorInput = document.getElementById('colorInput').value.toLowerCase(); 
+    let colorSelect = document.getElementById('GaugeColor');
+    let localColors = JSON.parse(localStorage.getItem("GaugeColors"));
+    console.log(localColors)
+
+    var e = document.getElementById("GaugeColor");
+    var colorName = e.options[e.selectedIndex].value;
+    e.remove(e.selectedIndex);
+    console.log(colorName)
+    for(i=0; i < localColors.length; i++){
+        console.log(localColors.length)
+        console.log(localColors[i].value)
+
+        if(localColors[i] == colorName)
+        {
+            console.log(localColors[i])
+            localColors.splice(i, 1);            
+        }
+
+    }
+    
+    localStorage.setItem('GaugeColors',JSON.stringify(localColors));
+
+
+}
+
+
+
+</script>
+
+
+</html>
