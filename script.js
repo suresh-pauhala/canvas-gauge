@@ -77,11 +77,22 @@ var primary = document.getElementById("MesauringUnits");
 var unit = primary.options[primary.selectedIndex].value;
 
 var secondary = document.getElementById("SecondaryUnits");
-var unit2 = secondary.options[secondary.selectedIndex].value;
+// var unit2 = secondary.options[secondary.selectedIndex].value;
 
-var unit2=document.getElementById("SecondaryUnits").innerHTML;
+// var unit2=document.getElementById("SecondaryUnits").innerHTML;
+
 var e = document.getElementById("GaugeColor");
 var gaugeColor = e.options[e.selectedIndex].value;
+
+let measure = document.getElementById("MeasuresSelect");
+measure = measure.options[measure.selectedIndex].value;
+
+let measuringUnit = document.getElementById("MesauringUnits");
+measuringUnit = measuringUnit.options[measuringUnit.selectedIndex].value;
+
+let secondaryUnit = document.getElementById("SecondaryUnits");
+secondaryUnit = secondaryUnit.options[secondaryUnit.selectedIndex].value;
+
 var gauge;
 var majorTicks=[];
 
@@ -131,7 +142,11 @@ majorTicks= calculateMajorTicks(min,max,10);
     settings[gaugeId].lowAlarmChecked = lowAlarmChecked;
     settings[gaugeId].highAlarmChecked = highAlarmChecked;
     settings[gaugeId].gaugeColor = gaugeColor;
-    
+    settings[gaugeId].Measures = {};
+    settings[gaugeId].Measures.measure = measure;
+    settings[gaugeId].Measures.PrimaryMeasuringUnits =  measuringUnit;
+    settings[gaugeId].Measures.SecondaryMeasuringUnits =  secondaryUnit;
+
     localStorage.setItem('settings',JSON.stringify(settings));
 
     gauge.options.minValue=min;
@@ -191,7 +206,7 @@ var res=min;
 var arr=[];
 for(var i=0;i<n;i++)
 {
-    console.log(res)
+    // console.log(res)
     arr[i]=Math.ceil(res);       
     res=res+div;
 }
@@ -292,10 +307,10 @@ function addColor()
            GaugeColors.push(colorInput); 
            
 
-            var option = document.createElement("OPTION");
+            
  
              localStorage.setItem('GaugeColors',JSON.stringify(GaugeColors));
-             option = document.createElement("OPTION");
+            let option = document.createElement("OPTION");
              option.text = option.value = colorInput;
              colorSelect.appendChild(option);
  
@@ -367,8 +382,10 @@ function addUnit(){
 
             // MeasuresLocal.MeasureInput = {};  // gauge is already reapeting so no need 
             // MeasuresLocal.MeasureInput.PrimaryMeasuringUnits = [] ; //no need
-                                            
-                                        
+            
+            if(MeasuresLocal[MeasureInput].PrimaryMeasuringUnits == undefined)
+                MeasuresLocal[MeasureInput].PrimaryMeasuringUnits = [];
+
             MeasuresLocal[MeasureInput].PrimaryMeasuringUnits.push(MeasureUnitInput);
             // console.log("In repeat");
             localStorage.setItem('Measures',JSON.stringify(MeasuresLocal));
@@ -392,7 +409,9 @@ function addUnit(){
         {
            var MeasuresLocal = JSON.parse(localStorage.getItem('Measures'));
             // MeasuresLocal.MeasureInput.SecondaryMeasuringUnits = [] ;
-                                            
+            
+            if(MeasuresLocal[MeasureInput].SecondaryMeasuringUnits == undefined)
+                MeasuresLocal[MeasureInput].SecondaryMeasuringUnits = [];
             MeasuresLocal[MeasureInput].SecondaryMeasuringUnits.push(MeasureSecondaryUnitInput);
             
             localStorage.setItem('Measures',JSON.stringify(MeasuresLocal));
@@ -647,4 +666,127 @@ function  MeasuresSelectChange()
         else{
             x.classList.add('d-none'); 
         } 
+    }
+
+function removeGauge(){
+        let e = document.getElementById("GaugesSelector");
+        let GaugeName = e.options[e.selectedIndex].value;
+        e.remove(e.selectedIndex);
+
+        let gauge = document.getElementById(GaugeName);
+        gauge.parentNode.parentElement.removeChild(gauge.parentElement)
+
+        let SettingsLocal = JSON.parse(localStorage.getItem('settings'));
+        delete SettingsLocal[GaugeName];
+        localStorage.setItem('settings',JSON.stringify(SettingsLocal));
+        SettingsMap.delete(GaugeName);
+    }
+
+function  GaugesSelectorChange()
+    {
+        let e = document.getElementById("GaugesSelector");
+        let gaugeName = e.options[e.selectedIndex].value;   
+
+        let value =  SettingsMap.get(gaugeName);
+        if(value != undefined){
+            
+            document.getElementById("InputLowSensor1").value = value.min
+            document.getElementById("InputLowSensor2").value = value.minMultiplier
+            document.getElementById("InputHighSensor1").value = value.max
+            document.getElementById("InputHighSensor2").value =  value.maxMultiplier
+            document.getElementById("InputAlarmLow").value = value.lowAlarmPercent
+            document.getElementById("InputAlarmHigh").value = value.highAlarmPercent
+            document.getElementById("AlarmCheckLow").checked = value.lowAlarmChecked
+            document.getElementById("AlarmCheckHigh").checked = value.highAlarmChecked
+
+            var GaugeColorSelect = document.getElementById("GaugeColor");
+            
+
+            let i=0;
+            for(;i<GaugeColorSelect.length;i++)
+            {
+                if(GaugeColorSelect.options[i].value == value.gaugeColor)
+                    break;
+            }
+
+            GaugeColorSelect.selectedIndex=i;
+
+            let Measures =  value.Measures;
+           let MeasuresSelect = document.getElementById("MeasuresSelect");
+ 
+           for(let i=0 ; i< MeasuresSelect.length ; i++)
+           {
+               if(MeasuresSelect.options[i].value == Measures.measure)
+               {
+                   MeasuresSelect.selectedIndex = i;
+                    MeasuresSelect.onchange();
+                   break;
+               }
+           }
+
+           let PrimaryMeasuringUnits = document.getElementById("MesauringUnits");
+ 
+           for(let i=0 ; i< PrimaryMeasuringUnits.length ; i++)
+           {
+               if(PrimaryMeasuringUnits.options[i].value == Measures.PrimaryMeasuringUnits)
+               {
+                    PrimaryMeasuringUnits.selectedIndex = i;
+                    
+                   break;
+               }
+           }
+
+           let SecondaryMeasuringUnits = document.getElementById("SecondaryUnits");
+ 
+           for(let i=0 ; i< SecondaryMeasuringUnits.length ; i++)
+           {
+               if(SecondaryMeasuringUnits.options[i].value == Measures.SecondaryMeasuringUnits)
+               {
+                    SecondaryMeasuringUnits.selectedIndex = i;
+                    
+                   break;
+               }
+           }
+           
+        }
+        else{
+            document.getElementById("MeasuresSelect").options.selectedIndex = 0
+        document.getElementById("GaugeColor").options.selectedIndex = 0
+        // document.getElementById("InputLowSensor1").innerHTML = "0"
+        // document.getElementById("InputLowSensor2").innerHTML = "0"
+        // document.getElementById("InputAlarmLow").innerHTML = "20"
+        // document.getElementById("InputHighSensor1").innerHTML = "100"
+        // document.getElementById("InputHighSensor2").innerHTML = "1"
+        // document.getElementById("InputAlarmHigh").innerHTML = "80"
+        let MeasureName = "none";   
+
+        let PrimaryMeasuringUnits = document.getElementById('MesauringUnits');
+        PrimaryMeasuringUnits.innerHTML = "";
+        let SecondaryMeasuringUnits = document.getElementById('SecondaryUnits');
+        SecondaryMeasuringUnits.innerHTML = "";
+
+        let Units =  MeasuresMap.get(MeasureName);
+       
+        if(Units != undefined)
+        {
+            let MesauringUnits = document.getElementById('MesauringUnits');
+            Units.PrimaryMeasuringUnits.forEach(
+             function(item){
+                let option = document.createElement("OPTION");
+                option.text = item;
+                option.value = item;
+                MesauringUnits.appendChild(option);
+            })
+
+            let SecondaryUnits = document.getElementById('SecondaryUnits');
+            Units.SecondaryMeasuringUnits.forEach(
+            function(item){
+                let option = document.createElement("OPTION");
+                option.text = item;
+                option.value = item;
+                SecondaryUnits.appendChild(option);
+            })       
+        }
+        }
+
     }

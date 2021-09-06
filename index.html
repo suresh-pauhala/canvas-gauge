@@ -267,7 +267,7 @@ const MeasuresMap = new Map();
 const SettingsMap = new Map();
 var GaugeColors =[];
 
-  window.onload = (event) => {
+window.onload = (event) => {
 
     let gaugeColors;
     gaugeColors = JSON.parse(localStorage.getItem('GaugeColors'));
@@ -280,11 +280,12 @@ var GaugeColors =[];
             function(item)
             {
                 let option = document.createElement("OPTION");
-                option = document.createElement("OPTION");
                 option.text = option.value = item;
                 colorSelect.appendChild(option);
             }
         )
+
+        colorSelect.selectedIndex  = 0 ;
     }
     
 
@@ -317,14 +318,17 @@ var GaugeColors =[];
 
         Units = MeasuresMap.get(value);
         let MesauringUnits = document.getElementById('MesauringUnits');
+
+        if(Units.PrimaryMeasuringUnits != undefined){
         Units.PrimaryMeasuringUnits.forEach(
         function(item){
             let option = document.createElement("OPTION");
             option.text = item;
             option.value = item;
             MesauringUnits.appendChild(option);
-        })
+        })}
 
+        if(Units.SecondaryMeasuringUnits != undefined){
         let SecondaryUnits = document.getElementById('SecondaryUnits');
         Units.SecondaryMeasuringUnits.forEach(
         function(item){
@@ -332,7 +336,7 @@ var GaugeColors =[];
             option.text = item;
             option.value = item;
             SecondaryUnits.appendChild(option);
-        })
+        })}
 
     }
 
@@ -405,29 +409,76 @@ var GaugeColors =[];
             }
         )
 
-        if(SettingsMap.get('gauge-1') != undefined){
-            document.getElementById("InputLowSensor1").value = SettingsMap.get('gauge-1').min
-            document.getElementById("InputLowSensor2").value = SettingsMap.get('gauge-1').minMultiplier
-            document.getElementById("InputHighSensor1").value = SettingsMap.get('gauge-1').max
-            document.getElementById("InputHighSensor2").value =  SettingsMap.get('gauge-1').maxMultiplier
-            document.getElementById("InputAlarmLow").value = SettingsMap.get('gauge-1').lowAlarmPercent
-            document.getElementById("InputAlarmHigh").value = SettingsMap.get('gauge-1').highAlarmPercent
-            document.getElementById("AlarmCheckLow").checked = SettingsMap.get('gauge-1').lowAlarmChecked
-            document.getElementById("AlarmCheckHigh").checked = SettingsMap.get('gauge-1').highAlarmChecked
+        document.getElementById("GaugesSelector").onchange();
 
-            var e = document.getElementById("GaugeColor");
-            var value = e.options[e.selectedIndex].value;
+        // if(SettingsMap.get('gauge-1') != undefined){
+        //     let gauge1= SettingsMap.get('gauge-1');
+        //     document.getElementById("InputLowSensor1").value = gauge1.min
+        //     document.getElementById("InputLowSensor2").value = gauge1.minMultiplier
+        //     document.getElementById("InputHighSensor1").value = gauge1.max
+        //     document.getElementById("InputHighSensor2").value =  gauge1.maxMultiplier
+        //     document.getElementById("InputAlarmLow").value = gauge1.lowAlarmPercent
+        //     document.getElementById("InputAlarmHigh").value = gauge1.highAlarmPercent
+        //     document.getElementById("AlarmCheckLow").checked = gauge1.lowAlarmChecked
+        //     document.getElementById("AlarmCheckHigh").checked = gauge1.highAlarmChecked
 
-            let i=0;
-            for(;i<e.length;i++)
-            {
-                if(e.options[i].value == SettingsMap.get('gauge-1').gaugeColor)
-                    break;
-            }
+        //     var e = document.getElementById("GaugeColor");
+        //     // var value = e.options[e.selectedIndex].value;
 
-            document.getElementById("GaugeColor").selectedIndex=i;
+            
+        //     for(let i=0;i<e.length;i++)
+        //     {
+        //         if(e.options[i].value == gauge1.gaugeColor)
+        //         {
+        //             e.selectedIndex=i;
+        //             break;
+        //         }
+                    
+        //     }
 
-        }
+           
+
+            
+        //    let Measures =  gauge1.Measures;
+        //    let MeasuresSelect = document.getElementById("MeasuresSelect");
+ 
+        //    for(let i=0 ; i< MeasuresSelect.length ; i++)
+        //    {
+        //        if(MeasuresSelect.options[i].value == Measures.measure)
+        //        {
+        //            MeasuresSelect.selectedIndex = i;
+        //             MeasuresSelect.onchange();
+        //            break;
+        //        }
+        //    }
+
+        //    let PrimaryMeasuringUnits = document.getElementById("MesauringUnits");
+ 
+        //    for(let i=0 ; i< PrimaryMeasuringUnits.length ; i++)
+        //    {
+        //        if(PrimaryMeasuringUnits.options[i].value == Measures.PrimaryMeasuringUnits)
+        //        {
+        //             PrimaryMeasuringUnits.selectedIndex = i;
+                    
+        //            break;
+        //        }
+        //    }
+
+        //    let SecondaryMeasuringUnits = document.getElementById("SecondaryUnits");
+ 
+        //    for(let i=0 ; i< SecondaryMeasuringUnits.length ; i++)
+        //    {
+        //        if(SecondaryMeasuringUnits.options[i].value == Measures.SecondaryMeasuringUnits)
+        //        {
+        //             SecondaryMeasuringUnits.selectedIndex = i;
+                    
+        //            break;
+        //        }
+        //    }
+           
+
+
+        // }
 
     }
 
@@ -457,33 +508,16 @@ var GaugeColors =[];
 
 
 
-    // storepassword = "1"
-    // //   storepassword = "Cgmp@150"
-    //   localStorage.setItem("password", storepassword)
+    //storepassword = "1"
+        storepassword = "" //Cgmp@150
+      localStorage.setItem("password", storepassword)
        
         
         settings.href = "#collapseExample";   
         console.log(settings.href);
   };
   
-function  GaugesSelectorChange()
-    {
-        let e = document.getElementById("GaugesSelector");
-        let gaugeName = e.options[e.selectedIndex].value;   
 
-        let value =  SettingsMap.get(gaugeName);
-        if(value != undefined){
-            document.getElementById("InputLowSensor1").value = value.min
-            document.getElementById("InputLowSensor2").value = value.minMultiplier
-            document.getElementById("InputHighSensor1").value = value.max
-            document.getElementById("InputHighSensor2").value =  value.maxMultiplier
-            document.getElementById("InputAlarmLow").value = value.lowAlarmPercent
-            document.getElementById("InputAlarmHigh").value = value.highAlarmPercent
-            document.getElementById("AlarmCheckLow").checked = value.lowAlarmChecked
-            document.getElementById("AlarmCheckHigh").checked = value.highAlarmChecked
-        }
-
-    }
 
 
   function checkSettingsDetails(){
@@ -593,6 +627,17 @@ function removeColor(){
 
 
 }
+
+function showAddUnitInputs(){
+        var x = document.getElementById("AddUnitInputs");
+        if(x.classList.contains('d-none')){
+            x.classList.remove('d-none');
+            
+        }
+        else{
+            x.classList.add('d-none'); 
+        } 
+    }
 
 </script>
 
